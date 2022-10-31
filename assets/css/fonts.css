@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Golos';
+    src: url("../fonts/GolosText-DemiBold.woff2") format("woff2"), url("../fonts/GolosText-DemiBold.woff") format("woff"), url("../fonts/GolosText-DemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Golos';
+    src: url("../fonts/GolosText-Bold.woff2") format("woff2"), url("../fonts/GolosText_Bold.woff") format("woff"), url("../fonts/GolosText_Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Commissioner';
+    src: url("../fonts/Commissioner-Medium.woff2") format("woff2"), url("../fonts/Commissioner-Medium.woff") format("woff"), url("../fonts/Commissioner-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Commissioner';
+    src: url("../fonts/Commissioner-Bold.woff2") format("woff2"), url("../fonts/Commissioner-Bold.woff") format("woff"), url("../fonts/Commissioner-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
