@@ -90,7 +90,7 @@ export default {
 }
 </script>
 <style >
-.footer-content {
+/* .footer-content {
     padding: 40px 0 30px 0;
     background: rgba(220, 226, 233, 0.5);
 }
@@ -444,5 +444,5 @@ export default {
     .footer-app__image img {
         width: 100%;
     }
-}
+} */
 </style>

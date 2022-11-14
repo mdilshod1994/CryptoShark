@@ -1,6 +1,6 @@
 <template>
     <div class="inner-component">
-        <!-- <mdbRow class="mb-4">
+        <mdbRow class="mb-4">
             <mdbCol xl="6">
                 <h1>
                     Файлы
@@ -19,23 +19,34 @@
             </mdbCol>
         </mdbRow>
         <mdbRow>
-            <mdbCol v-for="item in news" :key="item.id" class="mb-4" xl="3" lg="4" md="4" sm="6">
-                <mdbCard>
-                    <img :src="`${item.photo.server}/${item.photo.path}`" top alt="..." />
+            <mdbCol v-for="file, index in files" :key="file.id" class="mb-4" xl="3" lg="4" md="4" sm="6">
+                <mdbCard class="card-file">
+                    <img :src="`${file.server}/${file.path}`" top alt="..." />
                     <mdbCardBody>
-                        <mdbCardTitle>{{ item.name }}</mdbCardTitle>
-                        <mdbCardText v-html="item.content" class="news-content">
+                        <mdbCardText class="news-content">
+                            Name: {{ file.name }}
                         </mdbCardText>
-                        <mdbBtn tag="a" href="#!" @click="editNews(item)">
-                            <img src="@/assets/admin-icons/edit.svg" alt="">
-                        </mdbBtn>
-                        <mdbBtn tag="a" href="#!" color="danger" @click="deleteNews(item)">
-                            <img src="@/assets/admin-icons/trash.svg" alt="">
-                        </mdbBtn>
+                        <div class="d-flex align-items-center">
+                            <mdbBtn tag="a" href="#!" @click="copyLink({ file, index })"
+                                class="d-flex align-items-center w-100"
+                                :color="index === currIndex ? btnColor : 'primary'">
+                                <img src="@/assets/admin-icons/copy.svg" class="mr-2" alt="">
+                                <p v-if="index === currIndex ? showText : false" class="m-0">Скопирована</p>
+                                <p v-else class="m-0">Скопировать ссылку</p>
+                            </mdbBtn>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <mdbBtn tag="a" href="#!" @click="editFile()" class="w-50">
+                                <img src="@/assets/admin-icons/edit.svg" alt="">
+                            </mdbBtn>
+                            <mdbBtn tag="a" href="#!" color="danger" class="w-50" @click="deleteFile(file)">
+                                <img src="@/assets/admin-icons/trash.svg" alt="">
+                            </mdbBtn>
+                        </div>
                     </mdbCardBody>
                 </mdbCard>
             </mdbCol>
-        </mdbRow> -->
+        </mdbRow>
     </div>
 </template>
 <script>
@@ -64,33 +75,47 @@ export default {
     },
     data() {
         return {
+            showText: false,
+            btnColor: 'primary',
+            currIndex: null
         }
     },
     computed: {
-        // news() {
-        //     return this.$store.getters['news/ALL_NEWS']
-        // }
+        files() {
+            return this.$store.getters['files/FILES']
+        }
     },
     methods: {
-        // editNews(e) {
-        //     this.$store.dispatch('forms/openPopup', { tab: 'Files', info: e })
-        // },
-        // openPopup() {
-        //     this.$store.dispatch('forms/openPopup', { tab: 'Files', info: null })
-        // },
-        // async deleteNews(e) {
-        // const deletedNews = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.VUE_APP_API_URL + `articles/${e.id}`)
-        //     .then(res => {
-        //         return res
-        //     })
-        // if (deletedNews) {
-        //     this.$store.dispatch('news/allNews')
-        //     this.$toast.success(`${e.name} удален успешно`);
-        // } else {
-        //     this.$toast.error(`Что-то пошло не так`);
-        // }
+        copyLink(e) {
+            this.btnColor = 'success'
+            this.showText = true
+            this.currIndex = e.index
+            setTimeout(() => {
+                this.showText = false
+                this.currIndex = null
+                this.btnColor = 'primary'
+            }, 5000);
+            navigator.clipboard.writeText(`${e.file.server}/${e.file.path}`)
 
-        // }
+        },
+        editFile(e) {
+            // this.$store.dispatch('forms/openPopup', { tab: 'Files', info: e })
+        },
+        openPopup() {
+            this.$store.dispatch('forms/openPopup', { tab: 'Files', info: null })
+        },
+        async deleteFile(e) {
+            const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `files/${e.id}`)
+                .then(res => {
+                    return res
+                })
+            if (deletedFile) {
+                this.$store.dispatch('files/fetchFiles')
+                this.$toast.success(`${e.name} удален успешно`);
+            } else {
+                this.$toast.error(`Что-то пошло не так`);
+            }
+        }
     },
     async mounted() {
         await this.$store.dispatch('files/fetchFiles')
@@ -119,6 +144,9 @@ export default {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-
+}
+.card-file{
+    overflow: hidden;
+    border-radius: 1.25rem !important;
 }
 </style>

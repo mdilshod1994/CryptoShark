@@ -3,19 +3,25 @@ export const state = () => ({
 })
 
 export const getters = {
-
+    FILES(state) {
+        return state.files
+    }
 }
 
 export const mutations = {
-
+    setFiles(state, files) {
+        state.files = files
+    }
 }
 
 export const actions = {
-    async fetchFiles() {
-        // const files = await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.VUE_APP_API_URL + '/files')
-        //     .then(res => {
-        //         return res
-        //     })
-        // console.log(files);
+    async fetchFiles(ctx) {
+        const files = await this.$axios.$get('/files')
+            .then(res => {
+                return res.data
+            })
+        if (files) {
+            ctx.commit('setFiles', files)
+        }
     }
 }

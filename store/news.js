@@ -47,7 +47,7 @@ export const mutations = {
 export const actions = {
     async getNewsType1(ctx) {
         try {
-            const newsType1 = await this.$axios.$get(baseUrl + 'front/articles?search[type]=1')
+            const newsType1 = await this.$axios.$get('front/articles?search[type]=1')
                 .then(res => {
                     return res.data
                 })
@@ -58,7 +58,7 @@ export const actions = {
     },
     async getNewsType2(ctx) {
         try {
-            const newsType2 = await this.$axios.$get(baseUrl + 'front/articles?search[type]=2')
+            const newsType2 = await this.$axios.$get('front/articles?search[type]=2')
                 .then(res => {
                     return res.data
                 })
@@ -69,7 +69,7 @@ export const actions = {
     },
     async getNewsType3(ctx) {
         try {
-            const newsType3 = await this.$axios.$get(baseUrl + 'front/articles?search[type]=3')
+            const newsType3 = await this.$axios.$get('front/articles?search[type]=3')
                 .then(res => {
                     return res.data
                 })
@@ -80,7 +80,7 @@ export const actions = {
     },
     async getNewsComments(ctx, id) {
         try {
-            const newsComments = await this.$axios.$get(baseUrl + `articlesComments?search[articles_id]=${id}&limit=-1`)
+            const newsComments = await this.$axios.$get(`articlesComments?search[articles_id]=${id}&limit=-1`)
                 .then(res => {
                     return res.data
                 })
@@ -99,7 +99,7 @@ export const actions = {
             message: content.text
         }
         try {
-            const postedNews = await this.$axios.$post(baseUrl + 'articlesComments', body)
+            const postedNews = await this.$axios.$post('articlesComments', body)
                 .then(res => {
                     return res
                 })
@@ -111,7 +111,7 @@ export const actions = {
         }
     },
     async allNews(ctx) {
-        const news = await this.$axios.$get(process.env.VUE_APP_API_URL + 'front/articles')
+        const news = await this.$axios.$get('front/articles')
             .then(res => {
                 return res.data
             })

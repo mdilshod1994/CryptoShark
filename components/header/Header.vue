@@ -81,7 +81,7 @@ export default {
 }
 </script>
 <style >
-.header {
+/* .header {
     position: fixed;
     left: 0;
     top: 0;
@@ -435,5 +435,5 @@ export default {
     .header-menu-list li a {
         padding: 8px 0;
     }
-}
+} */
 </style>

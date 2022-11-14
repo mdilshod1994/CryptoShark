@@ -1,6 +1,6 @@
 <template>
     <div class="modal-window" @click="closePopup">
-        <div class="modal-window-body">
+        <div class="modal-window-body" :style="form == 'FormFiles' ? { height: 'max-content', overflow: 'inherit' } : false">
             <component :is="form"></component>
         </div>
     </div>
@@ -9,12 +9,14 @@
 import FormNews from './forms/FormNews.vue';
 import FormProject from './forms/FormProject.vue';
 import FormCoin from './forms/FormCoin.vue';
+import FormFiles from './forms/FormFiles.vue';
 
 export default {
     components: {
         FormNews,
         FormProject,
-        FormCoin
+        FormCoin,
+        FormFiles
     },
     computed: {
         form() {

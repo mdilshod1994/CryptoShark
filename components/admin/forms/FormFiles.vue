@@ -1,13 +1,13 @@
 <template >
     <div>
         <form class="a-form news" @click.stop="" @submit.prevent="postFiles" v-if="!tabInfo">
-            <p class="fw-bold text-center" style="font-size: 20px">
+            <p class="fw-bold text-center mb-4" style="font-size: 20px">
                 Добавление файлов
             </p>
-            <mdbInput label="Название новости" v-model="file" />
-            <mdbInput label="Автор" v-model="postType" />
-            <mdbInput label="Автор" v-model="postId" />
-            <mdbInput label="Автор" v-model="comment" />
+            <input type="file" id="customFile" @change="uploadImg" ref="file" />
+            <mdbInput label="Тип записи" v-model="file.postType" />
+            <mdbInput label="Id записи" v-model="file.postId" />
+            <mdbInput label="Коментарий к файлу" v-model="file.comment" />
             <mdbBtn type="submit">Добавить</mdbBtn>
             <mdbBtn color="danger">Отменить</mdbBtn>
         </form>
@@ -19,7 +19,6 @@
             <mdbBtn color="danger">Отменить</mdbBtn>
         </form>
     </div>
-
 </template>
 <script>
 import { mdbInput, mdbBtn } from 'mdbvue';
@@ -30,10 +29,12 @@ export default {
     },
     data() {
         return {
-            file: {},
-            postType: '',
-            postId: '',
-            comment: ''
+            file: {
+                img: null,
+                postType: '',
+                postId: '',
+                comment: '',
+            }
         };
     },
     computed: {
@@ -42,26 +43,30 @@ export default {
         }
     },
     methods: {
+        uploadImg() {
+            this.file.img = this.$refs.file.files[0];
+        },
         async postFiles() {
             try {
-                const info = {
-                    file: this.file,
-                    post_type: this.postType,
-                    post_id: this.postId,
-                    comment: this.comment
+                const formData = new FormData();
+                formData.append('file', this.file.img);
+                formData.append('post_type', this.file.postType);
+                formData.append('post_id', this.file.postId);
+                formData.append('comment', this.file.comment);
+                const headers = { 'Content-Type': 'multipart/form-data' };
+
+                const postedFile = await this.$axios.$post('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + 'files', formData, { headers })
+                    .then(res => {
+                        return res
+                    })
+                if (postedFile) {
+                    this.$toast.success(`${postedFile.name} добавлен успешно`);
+                    this.$store.dispatch('forms/closePopup')
+                    this.$store.dispatch('files/fetchFiles')
+                } else {
+                    this.$toast.error(`Что-то пошло не так`);
                 }
-                // const postedNews = await this.$axios.$post(process.env.VUE_APP_API_URL + 'articles', info)
-                //     .then(res => {
-                //         return res
-                //     })
-                // if (postedNews) {
-                //     this.$toast.success(`${postedNews.name} добавлен успешно`);
-                //     this.$store.dispatch('forms/closePopup')
-                //     this.$store.dispatch('news/allNews')
-                // } else {
-                //     this.$toast.error(`Что-то пошло не так`);
-                // }
-                // return postedNews
+                return postedFile
             } catch (error) {
                 console.error(error);
             }
@@ -77,18 +82,18 @@ export default {
             //         photo_id: this.idPhoto,
             //         tags: this.tags
             //     }
-            //     const changedNews = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.VUE_APP_API_URL + `articles/${this.tabInfo.id}`, info)
+            //     const changedFile = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.VUE_APP_API_URL + `articles/${this.tabInfo.id}`, info)
             //         .then(res => {
             //             return res
             //         })
-            //     if (changedNews) {
-            //         this.$toast.success(`${changedNews.name} изменен успешно`);
+            //     if (changedFile) {
+            //         this.$toast.success(`${changedFile.name} изменен успешно`);
             //         this.$store.dispatch('forms/closePopup')
-            //         this.$store.dispatch('news/allNews')
+            //         this.$store.dispatch('files/fetchFiles')
             //     } else {
             //         this.$toast.error(`Произашла ошибка`);
             //     }
-            //     return changedNews
+            //     return changedFile
             // } catch (error) {
             //     console.error(error);
             // }
