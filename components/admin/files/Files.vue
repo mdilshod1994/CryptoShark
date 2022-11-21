@@ -105,7 +105,7 @@ export default {
             this.$store.dispatch('forms/openPopup', { tab: 'Files', info: null })
         },
         async deleteFile(e) {
-            const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `files/${e.id}`)
+            const deletedFile = await this.$axios.$delete(`files/${e.id}`)
                 .then(res => {
                     return res
                 })

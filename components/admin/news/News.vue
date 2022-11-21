@@ -3,7 +3,7 @@
         <mdbRow class="mb-4">
             <mdbCol xl="6">
                 <h1>
-                    Криптовалюты
+                    Криптоновости
                 </h1>
             </mdbCol>
             <mdbCol xl="6">
@@ -81,7 +81,7 @@ export default {
             this.$store.dispatch('forms/openPopup', { tab: 'News', info: null })
         },
         async deleteNews(e) {
-            const deletedNews = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.VUE_APP_API_URL + `articles/${e.id}`)
+            const deletedNews = await this.$axios.$delete(`articles/${e.id}`)
                 .then(res => {
                     return res
                 })

@@ -93,7 +93,7 @@ export default {
                     photo_id: this.idPhoto,
                     tags: this.tags
                 }
-                const postedNews = await this.$axios.$post(process.env.VUE_APP_API_URL + 'articles', info)
+                const postedNews = await this.$axios.$post(  'articles', info)
                     .then(res => {
                         return res
                     })
@@ -120,7 +120,7 @@ export default {
                     photo_id: this.idPhoto,
                     tags: this.tags
                 }
-                const changedNews = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.VUE_APP_API_URL + `articles/${this.tabInfo.id}`, info)
+                const changedNews = await this.$axios.$put( `articles/${this.tabInfo.id}`, info)
                     .then(res => {
                         return res
                     })

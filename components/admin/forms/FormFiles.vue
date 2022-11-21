@@ -55,7 +55,7 @@ export default {
                 formData.append('comment', this.file.comment);
                 const headers = { 'Content-Type': 'multipart/form-data' };
 
-                const postedFile = await this.$axios.$post('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + 'files', formData, { headers })
+                const postedFile = await this.$axios.$post('files', formData, { headers })
                     .then(res => {
                         return res
                     })

@@ -86,11 +86,11 @@ export default {
             slidesPerView: 'auto',
         })
         try {
-            const singleNews = await this.$axios.$get(process.env.VUE_APP_API_URL + 'front/articles')
+            const singleNews = await this.$axios.$get(`front/articles?search[id]=${+this.$route.params.news}`)
                 .then(res => {
-                    return res.data.find(el => el.id === +this.$route.params.news)
+                    return res.data
                 })
-            this.singleNews = singleNews
+            this.singleNews = singleNews[0]
         } catch (error) {
             console.error(error);
         }
