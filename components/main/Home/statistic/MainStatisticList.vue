@@ -155,6 +155,7 @@ export default {
 
 .statistic-fear {
     padding: 30px 10px 0;
+    overflow: hidden;
 }
 
 .statistic-fear-row {
@@ -197,24 +198,18 @@ export default {
     font-size: 13px;
 }
 
-.statistic-fear-rating__arrow {
-    position: absolute;
-    left: calc(50% - 10px);
-    top: -20px;
-    width: 20px;
-    height: 52px;
-    background-image: url("@/assets/images/fear-rating-arrow.svg");
-    background-repeat: no-repeat;
-}
 
 .statistic-fear-rating {
     width: 260px;
     height: 130px;
     margin: 0 auto;
     position: relative;
-    padding: 50px 0 0;
     text-align: center;
     background-image: url("@/assets/images/statistic-fear-rating.svg");
+}
+
+.statistic-fear-rating__inner {
+    padding: 50px 0 0;
 }
 
 .statistic-fear-rating__caption {

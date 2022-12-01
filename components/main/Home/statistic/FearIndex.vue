@@ -19,9 +19,13 @@
                     </div>
                 </div>
                 <div class="statistic-fear-rating">
-                    <div class="statistic-fear-rating__arrow"></div>
-                    <div class="statistic-fear-rating__caption">Экстремальный<br> страх</div>
-                    <div class="statistic-fear-rating__value"><span>09</span> / 100</div>
+                    <div class="statistic-fear-rating__rating" :style="{ transform: `rotate(${fearIndex}deg)` }">
+                        <div class="statistic-fear-rating__arrow"></div>
+                    </div>
+                    <div class="statistic-fear-rating__inner">
+                        <div class="statistic-fear-rating__caption">Экстремальный<br> страх</div>
+                        <div class="statistic-fear-rating__value"><span>{{ fearIndexPercent }}</span> / 100</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,9 +33,40 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
 
+        }
+    },
+    computed: {
+        fearIndex() {
+            let tempFear = 65
+            if (tempFear >= 0) {
+                return ((tempFear / 100) * 178) + 271
+            } else {
+                return 1
+            }
+        },
+        fearIndexPercent() {
+            return 65
+        }
+    },
 }
 </script>
 <style>
+.statistic-fear-rating__rating {
+    width: 260px;
+    height: 260px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(45deg);
+}
 
+.statistic-fear-rating__arrow {
+    width: 20px;
+    height: 52px;
+    background-image: url("@/assets/images/fear-rating-arrow.svg");
+    background-repeat: no-repeat;
+}
 </style>
