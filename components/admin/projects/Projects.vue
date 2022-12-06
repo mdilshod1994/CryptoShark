@@ -9,11 +9,11 @@
             <mdbCol xl="6">
                 <mdbRow>
                     <mdbCol xl="6" style="display:flex; align-items: flex-end; position: relative;">
-                        <mdbInput class="mt-0 mb-0  w-100"></mdbInput>
-                        <img src="@/assets/admin-icons/search.svg" class="admin-search-icon" alt="">
+                        <!-- <mdbInput class="mt-0 mb-0  w-100"></mdbInput>
+                        <img src="@/assets/admin-icons/search.svg" class="admin-search-icon" alt=""> -->
                     </mdbCol>
                     <mdbCol xl="6">
-                        <mdbBtn tag="a" href="#!" color="primary w-100" @click="openPopup">Добавить</mdbBtn>
+                        <mdbBtn tag="a" color="primary w-100" @click="openPopup">Добавить</mdbBtn>
                     </mdbCol>
                 </mdbRow>
             </mdbCol>
@@ -27,7 +27,7 @@
                             Name: {{ file.name }}
                         </mdbCardText>
                         <div class="d-flex align-items-center">
-                            <mdbBtn tag="a" href="#!" @click="copyLink({ file, index })"
+                            <mdbBtn tag="a" @click="copyLink({ file, index })"
                                 class="d-flex align-items-center w-100"
                                 :color="index === currIndex ? btnColor : 'primary'">
                                 <img src="@/assets/admin-icons/copy.svg" class="mr-2" alt="">
@@ -36,19 +36,21 @@
                             </mdbBtn>
                         </div>
                         <div class="d-flex align-items-center">
-                            <mdbBtn tag="a" href="#!" @click="editFile()" class="w-50">
+                            <mdbBtn tag="a" @click="editFile()" class="w-50">
                                 <img src="@/assets/admin-icons/edit.svg" alt="">
                             </mdbBtn>
-                            <mdbBtn tag="a" href="#!" color="danger" class="w-50" @click="deleteFile(file)">
+                            <mdbBtn tag="a" color="danger" class="w-50" @click="deleteFile(file)">
                                 <img src="@/assets/admin-icons/trash.svg" alt="">
                             </mdbBtn>
                         </div>
                     </mdbCardBody>
                 </mdbCard>
             </mdbCol> -->
-            <p>
-                Здесь пока ничего нет
-            </p>
+            <mdbCol>
+                <p>
+                    Здесь пока ничего нет
+                </p>
+            </mdbCol>
         </mdbRow>
     </div>
 </template>
@@ -108,7 +110,7 @@ export default {
             this.$store.dispatch('forms/openPopup', { tab: 'Files', info: null })
         },
         async deleteFile(e) {
-            const deletedFile = await this.$axios.$delete( `files/${e.id}`)
+            const deletedFile = await this.$axios.$delete(`files/${e.id}`)
                 .then(res => {
                     return res
                 })
@@ -128,7 +130,7 @@ export default {
 <style>
 .inner-component {
     padding-bottom: 70px;
-    margin: 61px auto 70px;
+    margin: 5px auto 70px;
     background: #fff;
     width: 99%;
     overflow: hidden;
@@ -148,7 +150,8 @@ export default {
     -webkit-line-clamp: 3;
     overflow: hidden;
 }
-.card-file{
+
+.card-file {
     overflow: hidden;
     border-radius: 1.25rem !important;
 }

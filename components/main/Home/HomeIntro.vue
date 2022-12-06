@@ -1,6 +1,35 @@
 <template>
     <div class="intro">
-        <div class="intro__paralax"></div>
+        <div v-for="(item, index) in coins" :key="index" :class="`intro__paralax-${index + 1}`">
+            <div class="intro__paralax-inner">
+                <img :src="item.logo_url" alt="" :class="fade ? 'show' : ''">
+            </div>
+        </div>
+        <!-- <div class="intro__paralax-2">
+            <div class="intro__paralax-inner">
+                <img src="../../../assets/img/banner/2.svg" alt="">
+            </div>
+        </div>
+        <div class="intro__paralax-3">
+            <div class="intro__paralax-inner">
+                <img src="../../../assets/img/banner/3.svg" alt="">
+            </div>
+        </div>
+        <div class="intro__paralax-4">
+            <div class="intro__paralax-inner">
+                <img src="../../../assets/img/banner/4.svg" alt="">
+            </div>
+        </div>
+        <div class="intro__paralax-5">
+            <div class="intro__paralax-inner">
+                <img src="../../../assets/img/banner/5.svg" alt="">
+            </div>
+        </div>
+        <div class="intro__paralax-6">
+            <div class="intro__paralax-inner">
+                <img src="../../../assets/img/banner/6.svg" alt="">
+            </div>
+        </div> -->
         <h1 class="intro__title">Новые <img src="@/assets/images/icon-intro-title.svg" alt="img"> проекты<br> и
             стартапы
             каждый день</h1>
@@ -13,35 +42,60 @@
 import PrimaryButton from '~/components/UI/PrimaryButton.vue';
 
 export default {
-    mounted() {
-        // Paralax intro
-        (function () {
-            document.addEventListener("mousemove", parallax);
-            function parallax(e) {
-                let _w = window.innerWidth / 2;
-                let _h = window.innerHeight / 2;
-                let _mouseX = e.clientX;
-                let _mouseY = e.clientY;
-                let _depth1 = `${50 - (_mouseX - _w) * 0.001}% ${50 - (_mouseY - _h) * 0.001}%`;
-                let _depth2 = `${50 - (_mouseX - _w) * 0.002}% ${50 - (_mouseY - _h) * 0.002}%`;
-                let _depth3 = `${50 - (_mouseX - _w) * 0.006}% ${50 - (_mouseY - _h) * 0.006}%`;
-                let x = `${_depth3}, ${_depth2}, ${_depth1}`;
-                elem.style.backgroundPosition = x;
-            }
-            const elem = document.querySelector(".intro");
-        })();
+    components: { PrimaryButton },
+    data() {
+        return {
+            allCoins: [],
+            coins: [],
+            fade: true
+        }
     },
-    components: { PrimaryButton }
+    methods: {
+        shuffledCoins() {
+            let num = 6
+            let arr = this.allCoins.sort(() => 0.5 - Math.random())
+            this.coins = arr.slice(0, num)
+        }
+    },
+    async mounted() {
+        this.allCoins = await this.$axios.$get('front/crypto_exchanges?limit=6').then(res => {
+            return res.data
+        })
+        if (this.allCoins) {
+            this.shuffledCoins()
+        }
+        setInterval(() => {
+            this.fade = false
+            this.shuffledCoins()
+        }, 10000)
+    },
+    watch: {
+        coins(newV) {
+            if (newV) {
+                setTimeout(() => {
+                    this.fade = true
+                }, 100)
+            }
+        }
+    }
 }
 </script>
 
 <style>
+.fade-image-enter-active,
+.fade-image-leave-active {
+    transition: opacity 3s ease;
+}
+
+.fade-image-enter-from,
+.fade-image-leave-to {
+    opacity: 0;
+}
+
 .intro {
     position: relative;
     text-align: center;
-    background-image: url('@/assets/images/intro-image.svg');
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
+    /* background-image: url('@/assets/images/intro-image.svg'); */
     padding: 185px 0 45px 0;
 }
 
@@ -65,6 +119,8 @@ h1.intro__title {
     font-size: 48px;
     font-weight: 700;
     letter-spacing: -0.01em;
+    position: relative;
+    z-index: 999;
 }
 
 h1.intro__title img {
@@ -77,6 +133,8 @@ h1.intro__title img {
     margin-bottom: 50px;
     padding: 0 52px;
     font-size: 14px;
+    position: relative;
+    z-index: 999;
 }
 
 @media only screen and (max-width: 1279px) {

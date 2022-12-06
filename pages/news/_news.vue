@@ -60,6 +60,11 @@ import 'swiper/swiper-bundle.min.css'
 import Likes from '~/components/UI/Likes.vue';
 
 export default {
+    head() {
+        return {
+            title: this.singleNews.name
+        }
+    },
     components: {
         SingleNewsComm,
         SubsTopCoinsComponent,
@@ -118,6 +123,7 @@ export default {
 
 .news-single-content img {
     margin-bottom: 30px;
+    margin-top: 30px;
     max-width: 100%;
 }
 

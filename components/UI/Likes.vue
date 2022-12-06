@@ -1,7 +1,9 @@
 <template >
-    <button :class="`news-item__action ${item.likes_checked ? 'active' : ''} `" @click="setLike(item)">
+    <button :class="`news-item__action ${item.likes_checked || this.liked ? 'active' : ''} `" @click="setLike(item)">
         <i class="ic ic-favorite"></i>
-        {{ item.likes }}
+        <span>
+            {{ item.likes }}
+        </span>
     </button>
 </template>
 <script>
@@ -13,10 +15,12 @@ export default {
         return {
             liked: false,
             articleId: null,
+            test: false,
         }
     },
     methods: {
         async setLike(item) {
+            this.liked = !this.liked
             let body = {
                 articles_id: item.id
             }

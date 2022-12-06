@@ -47,7 +47,7 @@ export const mutations = {
 export const actions = {
     async getNewsType1(ctx) {
         try {
-            const newsType1 = await this.$axios.$get('front/articles?search[type]=1')
+            const newsType1 = await this.$axios.$get('front/articles?search[type]=1&limit=-1')
                 .then(res => {
                     return res.data
                 })
@@ -58,7 +58,7 @@ export const actions = {
     },
     async getNewsType2(ctx) {
         try {
-            const newsType2 = await this.$axios.$get('front/articles?search[type]=2')
+            const newsType2 = await this.$axios.$get('front/articles?search[type]=2&limit=-1')
                 .then(res => {
                     return res.data
                 })
@@ -69,7 +69,7 @@ export const actions = {
     },
     async getNewsType3(ctx) {
         try {
-            const newsType3 = await this.$axios.$get('front/articles?search[type]=3')
+            const newsType3 = await this.$axios.$get('front/articles?search[type]=3&limit=-1')
                 .then(res => {
                     return res.data
                 })

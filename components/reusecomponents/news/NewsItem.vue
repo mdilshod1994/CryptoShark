@@ -9,8 +9,8 @@
         </div>
         <div class="news-item-content">
             <div class="news-item-info">
-                <div class="news-item__author">Автор: <strong>{{ item.author }}</strong></div>
-                <div class="news-item__time">{{ item.date_creation }} минут назад</div>
+                <div class="news-item__author">Автор: <strong>{{ item.autor }}</strong></div>
+                <div class="news-item__time" v-if="item.date_creation">{{ setTime(item.date_creation) }}</div>
             </div>
             <div class="news-item-actions">
                 <likes :item="item" />
@@ -31,6 +31,24 @@ export default {
             reRender: 0
         }
     },
+    methods: {
+        setTime(e) {
+            if (e) {
+                const date = new Date(e * 1000);
+                const timestamp = new Date().getTime();
+                let min = Math.floor((timestamp - (e * 1000)) / 60000)
+                let hours = Math.floor(min / 60);
+                if (min < 60) {
+                    return min + ' минут назад'
+                } else if (min >= 60 && hours < 24) {
+                    return hours + ' час назад'
+                } else if (hours > 24) {
+                    return date.toLocaleDateString('ru-RU')
+                }
+            }
+        }
+    }
+
 }
 </script>
 <style>

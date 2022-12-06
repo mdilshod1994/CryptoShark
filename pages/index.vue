@@ -16,6 +16,11 @@ import MainStatisticList from '@/components/main/Home/statistic/MainStatisticLis
 import MainNews from '@/components/main/Home/news/MainNews.vue';
 import TrendsCoins from '@/components/reusecomponents/trend-coins/TrendsCoins.vue';
 export default {
+  head() {
+    return {
+      title: "CryptoShark"
+    }
+  },
   name: "IndexPage",
   components: {
     HomeIntro,

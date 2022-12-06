@@ -45,6 +45,11 @@ import SubsTopCoinsComponent from '@/components/reusecomponents/subscribe-topcoi
 import NewsList from '@/components/main/News/NewsList.vue'
 import NewsPartner from '@/components/main/News/news-partner/NewsPartner.vue'
 export default {
+    head() {
+        return {
+            title: "Новости"
+        }
+    },
     components: { TrendsCoins, SubsTopCoinsComponent, NewsList, NewsPartner },
     computed: {
         newsFirstType() {

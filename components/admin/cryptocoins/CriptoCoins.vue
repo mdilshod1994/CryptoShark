@@ -9,11 +9,11 @@
             <mdbCol xl="6">
                 <mdbRow>
                     <mdbCol xl="6" style="display:flex; align-items: flex-end; position: relative;">
-                        <mdbInput class="mt-0 mb-0  w-100"></mdbInput>
-                        <img src="@/assets/admin-icons/search.svg" class="admin-search-icon" alt="">
+                        <!-- <mdbInput class="mt-0 mb-0  w-100"></mdbInput>
+                        <img src="@/assets/admin-icons/search.svg" class="admin-search-icon" alt=""> -->
                     </mdbCol>
                     <mdbCol xl="6">
-                        <mdbBtn tag="a" href="#!" color="primary w-100 m-0" @click="openPopup">Добавить
+                        <mdbBtn tag="a" color="primary w-100 m-0" @click.native="openPopup">Добавить
                         </mdbBtn>
                     </mdbCol>
                 </mdbRow>
@@ -122,7 +122,8 @@ export default {
             console.log('coins');
         },
         async deleteCoin(e) {
-            const deletedNews = await this.$axios.$delete(`cryptoExchanges/${e.id}`)
+            // const deletedNews = await this.$axios.$delete(`cryptoExchanges/${e.id}`)
+            const deletedNews = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `cryptoExchanges/${e.id}`)
                 .then(res => {
                     return res
                 })
@@ -144,7 +145,7 @@ export default {
 <style>
 .inner-component {
     padding-bottom: 70px;
-    margin: 61px auto 70px;
+    margin: 5px auto 70px;
     background: #fff;
     width: 99%;
     overflow: hidden;

@@ -21,23 +21,25 @@
                         <div class="footer-nav-section">
                             <div class="footer-nav__caption">Разделы</div>
                             <ul class="footer-nav-list">
-                                <li><a href="#">Проекты</a></li>
-                                <li><a href="#">Криптоновости</a></li>
-                                <li><a href="#">База знаний</a></li>
+                                <li> <nuxt-link to="/projects">Проекты</nuxt-link></li>
+                                <li> <nuxt-link to="/news">Криптоновости</nuxt-link></li>
+                                <li> <nuxt-link to="#">База знаний</nuxt-link></li>
                             </ul>
                         </div>
                         <div class="footer-nav-section">
                             <div class="footer-nav__caption">О проекте</div>
                             <ul class="footer-nav-list">
-                                <li><a href="#">Рекламодателям</a></li>
-                                <li><a href="#">Обратная связь</a></li>
+                                <li><nuxt-link to="/ads" target="_blank">Рекламодателям</nuxt-link></li>
+                                <li><nuxt-link to="/feedback" target="_blank">Обратная связь</nuxt-link></li>
                             </ul>
                         </div>
                         <div class="footer-nav-section">
                             <div class="footer-nav__caption">Правовые документы</div>
                             <ul class="footer-nav-list">
-                                <li><a href="#">Политика конфиденциальности</a></li>
-                                <li><a href="#">Пользовательское соглашение</a></li>
+                                <li><nuxt-link to="/privacy-notice" target="_blank">Политика
+                                        конфиденциальности</nuxt-link></li>
+                                <li><nuxt-link to="/terms-and-conditions" target="_blank">Пользовательское
+                                        соглашение</nuxt-link></li>
                             </ul>
                         </div>
                     </div>

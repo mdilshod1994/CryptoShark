@@ -123,7 +123,8 @@ export default {
                     vwap24Hr: this.vwap24Hr,
                     files_id: this.files_id,
                 }
-                const postedNews = await this.$axios.$put(`cryptoExchanges/${this.tabInfo.id}`, info)
+                // const postedNews = await this.$axios.$put(`cryptoExchanges/${this.tabInfo.id}`, info)
+                const postedNews = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `cryptoExchanges/${this.tabInfo.id}`, info)
                     .then(res => {
                         return res
                     })

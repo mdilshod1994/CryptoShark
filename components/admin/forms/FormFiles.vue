@@ -9,7 +9,7 @@
             <mdbInput label="Id записи" v-model="file.postId" />
             <mdbInput label="Коментарий к файлу" v-model="file.comment" />
             <mdbBtn type="submit">Добавить</mdbBtn>
-            <mdbBtn color="danger">Отменить</mdbBtn>
+            <mdbBtn color="danger" type="btn" @click="cancel">Отменить</mdbBtn>
         </form>
         <form class="a-form news" @click.stop="" @submit.prevent="editFile" v-else>
             <p class="fw-bold text-center" style="font-size: 20px">
@@ -43,6 +43,9 @@ export default {
         }
     },
     methods: {
+        cancel() {
+            this.$store.dispatch('forms/closePopup')
+        },
         uploadImg() {
             this.file.img = this.$refs.file.files[0];
         },

@@ -30,6 +30,11 @@
 </template>
 <script>
 export default {
+    head() {
+        return {
+            title: "Логин"
+        }
+    },
     name: 'login',
     layout: 'empty',
     data() {

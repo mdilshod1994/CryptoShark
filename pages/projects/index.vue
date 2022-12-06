@@ -17,6 +17,11 @@ import ProjectLIst from '@/components/main/projects/ProjectLIst.vue';
 import SubsTopCoinsComponent from '@/components/reusecomponents/subscribe-topcoins/SubsTopCoinsComponent.vue';
 import TrendsCoins from '@/components/reusecomponents/trend-coins/TrendsCoins.vue';
 export default {
+    head() {
+        return {
+            title: "Проекты"
+        }
+    },
     components: { ProjectTabs, ProjectLIst, SubsTopCoinsComponent, TrendsCoins }
 }
 </script>

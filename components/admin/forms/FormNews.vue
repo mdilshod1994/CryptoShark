@@ -17,7 +17,7 @@
             <mdbInput label="ID фото" type="number" v-model="idPhoto" />
             <mdbInput label="Теги статьи через запятую" v-model="tags" />
             <mdbBtn type="submit">Добавить</mdbBtn>
-            <mdbBtn color="danger">Отменить</mdbBtn>
+            <mdbBtn color="danger" type="btn" @click="cancel">Отменить</mdbBtn>
         </form>
         <form class="a-form news" @click.stop="" @submit.prevent="editNews" v-else>
             <p class="fw-bold text-center" style="font-size: 20px">
@@ -36,7 +36,7 @@
             <mdbInput label="ID фото" type="number" v-model="idPhoto" />
             <mdbInput label="Теги статьи через запятую" v-model="tags" />
             <mdbBtn type="submit">Добавить изменения</mdbBtn>
-            <mdbBtn color="danger">Отменить</mdbBtn>
+            <mdbBtn color="danger" type="btn" @click="cancel">Отменить</mdbBtn>
         </form>
     </div>
 
@@ -82,6 +82,9 @@ export default {
         }
     },
     methods: {
+        cancel() {
+            this.$store.dispatch('forms/closePopup')
+        },
         async postNews() {
             try {
                 const info = {
@@ -93,7 +96,8 @@ export default {
                     photo_id: this.idPhoto,
                     tags: this.tags
                 }
-                const postedNews = await this.$axios.$post(  'articles', info)
+                const postedNews = await this.$axios.$post('articles', info)
+                    // const postedNews = await this.$axios.$post('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + 'articles', info)
                     .then(res => {
                         return res
                     })
@@ -120,7 +124,8 @@ export default {
                     photo_id: this.idPhoto,
                     tags: this.tags
                 }
-                const changedNews = await this.$axios.$put( `articles/${this.tabInfo.id}`, info)
+                // const changedNews = await this.$axios.$put(`articles/${this.tabInfo.id}`, info)
+                const changedNews = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `articles/${this.tabInfo.id}`, info)
                     .then(res => {
                         return res
                     })

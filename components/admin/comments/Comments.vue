@@ -3,49 +3,55 @@
         <mdbRow class="mb-4">
             <mdbCol xl="6">
                 <h1>
-                    Файлы
+                    Комментарии
                 </h1>
             </mdbCol>
-            <mdbCol xl="6">
+            <!-- <mdbCol xl="6">
                 <mdbRow>
                     <mdbCol xl="6" style="display:flex; align-items: flex-end; position: relative;">
-                        <!-- <mdbInput class="mt-0 mb-0  w-100"></mdbInput>
-                        <img src="@/assets/admin-icons/search.svg" class="admin-search-icon" alt=""> -->
+                        <mdbInput class="mt-0 mb-0  w-100"></mdbInput>
+                        <img src="@/assets/admin-icons/search.svg" class="admin-search-icon" alt="">
                     </mdbCol>
                     <mdbCol xl="6">
                         <mdbBtn tag="a" color="primary w-100" @click="openPopup">Добавить</mdbBtn>
                     </mdbCol>
                 </mdbRow>
-            </mdbCol>
+            </mdbCol> -->
         </mdbRow>
         <mdbRow>
-            <mdbCol v-for="file, index in files" :key="file.id" class="mb-3" xxl="2" xl="2" lg="3" md="4" sm="6">
+            <!-- <mdbCol v-for="file, index in files" :key="file.id" class="mb-4" xl="3" lg="4" md="4" sm="6">
                 <mdbCard class="card-file">
-                    <img :src="`${file.server}/${file.path}`" top alt="..."
-                        style="height: 167px; object-fit: contain;" />
+                    <img :src="`${file.server}/${file.path}`" top alt="..." />
                     <mdbCardBody>
                         <mdbCardText class="news-content">
                             Name: {{ file.name }}
                         </mdbCardText>
                         <div class="d-flex align-items-center">
-                            <mdbBtn tag="a" @click="copyLink({ file, index })" class="d-flex align-items-center w-100"
-                                :color="index === currIndex ? btnColor : 'primary'" style="padding: 6px 15px">
+                            <mdbBtn tag="a"  @click="copyLink({ file, index })"
+                                class="d-flex align-items-center w-100"
+                                :color="index === currIndex ? btnColor : 'primary'">
                                 <img src="@/assets/admin-icons/copy.svg" class="mr-2" alt="">
                                 <p v-if="index === currIndex ? showText : false" class="m-0">Скопирована</p>
-                                <p v-else class="m-0" style="font-size: 12px;">Скопировать ссылку</p>
+                                <p v-else class="m-0">Скопировать ссылку</p>
                             </mdbBtn>
                         </div>
                         <div class="d-flex align-items-center">
-                            <!-- <mdbBtn tag="a"  @click="editFile()" class="w-50">
+                            <mdbBtn tag="a"  @click="editFile()" class="w-50">
                                 <img src="@/assets/admin-icons/edit.svg" alt="">
-                            </mdbBtn> -->
-                            <mdbBtn tag="a" color="danger" class="w-100" @click="deleteFile(file)">
+                            </mdbBtn>
+                            <mdbBtn tag="a"  color="danger" class="w-50" @click="deleteFile(file)">
                                 <img src="@/assets/admin-icons/trash.svg" alt="">
                             </mdbBtn>
                         </div>
                     </mdbCardBody>
                 </mdbCard>
+            </mdbCol> -->
+            <mdbCol>
+                <p>
+                    Здесь пока ничего нет
+                </p>
             </mdbCol>
+
         </mdbRow>
     </div>
 </template>
@@ -122,7 +128,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style>
 .inner-component {
     padding-bottom: 70px;
     margin: 5px auto 70px;
@@ -140,8 +146,10 @@ export default {
 }
 
 .news-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
     overflow: hidden;
-    white-space: nowrap;
 }
 
 .card-file {

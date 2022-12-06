@@ -1,6 +1,6 @@
 <template>
     <div class="flexible-content">
-        <mdb-navbar class="flexible-navbar white" light position="top" scrolling>
+        <mdb-navbar class="flexible-navbar white table-mob-vers" light position="top" scrolling>
             <mdb-navbar-toggler>
                 <mdb-navbar-nav left>
                     <!-- <mdb-nav-item waves-fixed @click="components = 'Main'" :class="{ active: components === 'Main' }">
@@ -20,32 +20,61 @@
                         Файлы</mdb-nav-item>
                 </mdb-navbar-nav>
                 <mdb-navbar-nav right>
-                    <mdb-nav-item waves-fixed class="border border-light rounded mr-1" @click="logout">Logout
+                    <mdb-nav-item waves-fixed class="border border-light rounded mr-1" @click="logout">Выйти
                     </mdb-nav-item>
                 </mdb-navbar-nav>
             </mdb-navbar-toggler>
-        </mdb-navbar>тзь
+        </mdb-navbar>
         <div class="sidebar-fixed position-fixed">
             <a class="logo-wrapper"><img alt="" class="img-fluid" src="@/assets/images/logo.svg" /></a>
             <mdb-list-group class="list-group-flush">
-                <router-link to="/admin" @click.native="activeItem = 1">
-                    <mdb-list-group-item class="custom-list-item" :action="true" :class="activeItem === 1 && 'active'">
-                        <img src="@/assets/admin-icons/template.png" alt=""> Dashboard
+                <router-link to="" @click.native="components = 'CriptoCoins'">
+                    <mdb-list-group-item class="custom-list-item" :action="true"
+                        :class="{ active: components === 'CriptoCoins' }">
+                        <img src="@/assets/admin-icons/1.svg" alt=""> Криптовалюты
+                    </mdb-list-group-item>
+                </router-link>
+                <router-link to="" @click.native="components = 'Projects'">
+                    <mdb-list-group-item class="custom-list-item" :action="true"
+                        :class="{ active: components === 'Projects' }">
+                        <img src="@/assets/admin-icons/2.svg" alt=""> Проекты
+                    </mdb-list-group-item>
+                </router-link>
+                <router-link to="" @click.native="components = 'News'">
+                    <mdb-list-group-item class="custom-list-item" :action="true"
+                        :class="{ active: components === 'News' }">
+                        <img src="@/assets/admin-icons/3.svg" alt=""> Криптоновости
+                    </mdb-list-group-item>
+                </router-link>
+                <router-link to="" @click.native="components = 'KnowLedge'">
+                    <mdb-list-group-item class="custom-list-item" :action="true"
+                        :class="{ active: components === 'KnowLedge' }">
+                        <img src="@/assets/admin-icons/4.svg" alt=""> База знаний
+                    </mdb-list-group-item>
+                </router-link>
+                <router-link to="" @click.native="components = 'Files'">
+                    <mdb-list-group-item class="custom-list-item" :action="true"
+                        :class="{ active: components === 'Files' }">
+                        <img src="@/assets/admin-icons/5.svg" alt=""> Файлы
+                    </mdb-list-group-item>
+                </router-link>
+                <router-link to="" @click.native="components = 'Comments'">
+                    <mdb-list-group-item class="custom-list-item" :action="true"
+                        :class="{ active: components === 'Comments' }">
+                        <img src="@/assets/admin-icons/6.svg" alt=""> Комментарии
                     </mdb-list-group-item>
                 </router-link>
             </mdb-list-group>
+            <mdb-navbar-nav class="btn-logout">
+                <mdb-nav-item waves-fixed class="border border-light rounded mr-1" @click="logout">Выйти
+                </mdb-nav-item>
+            </mdb-navbar-nav>
         </div>
         <main class="custom-main">
             <div class="component-wrap">
                 <component :is="currComponent"></component>
             </div>
         </main>
-        <ftr color="primary-color-dark" class="text-center font-small darken-2">
-            <p class="footer-copyright mb-0 py-3 text-center">
-                &copy; {{ new Date().getFullYear() }} Copyright:
-                <a href="https://mdbootstrap.com/docs/vue/"> MDBootstrap.com </a>
-            </p>
-        </ftr>
         <popup v-if="isFormActive" />
     </div>
 </template>
@@ -56,6 +85,7 @@ import Projects from '@/components/admin/projects/Projects.vue'
 import News from '@/components/admin/news/News.vue'
 import KnowLedge from '@/components/admin/knowledge/Knowledge.vue'
 import Files from '@/components/admin/files/Files.vue'
+import Comments from '@/components/admin/comments/Comments.vue'
 
 
 import {
@@ -74,6 +104,11 @@ import {
 } from "mdbvue";
 import Popup from '~/components/admin/popup.vue'
 export default {
+    head() {
+        return {
+            title: "Админ панель"
+        }
+    },
     name: "AdminTemplate",
     middleware: ['auth-user'],
     layout: 'admin',
@@ -83,6 +118,7 @@ export default {
         Projects,
         KnowLedge,
         Files,
+        Comments,
         mdbNavbar,
         mdbNavbarBrand,
         mdbNavItem,
@@ -101,7 +137,7 @@ export default {
         return {
             activeItem: 1,
             components: "CriptoCoins",
-            tabs: ["Main", "CriptoCoins", "Projects", "News", "KnowLedge", "Files"]
+            tabs: ["Main", "CriptoCoins", "Projects", "News", "KnowLedge", "Files", "Comments"]
         };
     },
     computed: {
@@ -130,6 +166,26 @@ export default {
 @import '@/assets/css/all.css';
 @import '@/assets/css/bootstrap.css';
 @import '@/assets/css/mdb.min.css';
+
+.custom-list-item img {
+    width: 35px;
+    height: 35px;
+}
+
+.custom-list-item.active img {
+    filter: invert(1);
+}
+
+.btn-logout {
+    margin-top: auto;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.table-mob-vers {
+    display: none;
+}
 
 .custom-main {
     display: flex;
@@ -183,6 +239,8 @@ main {
     background-color: #fff;
     padding: 1.5rem;
     padding-top: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-fixed .logo-wrapper img {
@@ -211,6 +269,14 @@ main {
 
     .flexible-navbar {
         padding-left: 10px;
+    }
+
+    .table-mob-vers {
+        display: block;
+    }
+
+    .inner-component {
+        margin: 75px auto 70px;
     }
 }
 </style>
