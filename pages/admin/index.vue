@@ -28,37 +28,37 @@
         <div class="sidebar-fixed position-fixed">
             <a class="logo-wrapper"><img alt="" class="img-fluid" src="@/assets/images/logo.svg" /></a>
             <mdb-list-group class="list-group-flush">
-                <router-link to="" @click.native="components = 'CriptoCoins'">
+                <router-link to="/admin?crypto-coins" @click.native="components = 'CriptoCoins'">
                     <mdb-list-group-item class="custom-list-item" :action="true"
                         :class="{ active: components === 'CriptoCoins' }">
                         <img src="@/assets/admin-icons/1.svg" alt=""> Криптовалюты
                     </mdb-list-group-item>
                 </router-link>
-                <router-link to="" @click.native="components = 'Projects'">
+                <router-link to="/admin?projects" @click.native="components = 'Projects'">
                     <mdb-list-group-item class="custom-list-item" :action="true"
                         :class="{ active: components === 'Projects' }">
                         <img src="@/assets/admin-icons/2.svg" alt=""> Проекты
                     </mdb-list-group-item>
                 </router-link>
-                <router-link to="" @click.native="components = 'News'">
+                <router-link to="/admin?crypto-news" @click.native="components = 'News'">
                     <mdb-list-group-item class="custom-list-item" :action="true"
                         :class="{ active: components === 'News' }">
                         <img src="@/assets/admin-icons/3.svg" alt=""> Криптоновости
                     </mdb-list-group-item>
                 </router-link>
-                <router-link to="" @click.native="components = 'KnowLedge'">
+                <router-link to="/admin?knowledge" @click.native="components = 'KnowLedge'">
                     <mdb-list-group-item class="custom-list-item" :action="true"
                         :class="{ active: components === 'KnowLedge' }">
                         <img src="@/assets/admin-icons/4.svg" alt=""> База знаний
                     </mdb-list-group-item>
                 </router-link>
-                <router-link to="" @click.native="components = 'Files'">
+                <router-link to="/admin?files" @click.native="components = 'Files'">
                     <mdb-list-group-item class="custom-list-item" :action="true"
                         :class="{ active: components === 'Files' }">
                         <img src="@/assets/admin-icons/5.svg" alt=""> Файлы
                     </mdb-list-group-item>
                 </router-link>
-                <router-link to="" @click.native="components = 'Comments'">
+                <router-link to="/admin?comments" @click.native="components = 'Comments'">
                     <mdb-list-group-item class="custom-list-item" :action="true"
                         :class="{ active: components === 'Comments' }">
                         <img src="@/assets/admin-icons/6.svg" alt=""> Комментарии
@@ -106,7 +106,7 @@ import Popup from '~/components/admin/popup.vue'
 export default {
     head() {
         return {
-            title: "Админ панель"
+            title: this.routeTitle
         }
     },
     name: "AdminTemplate",
@@ -137,7 +137,8 @@ export default {
         return {
             activeItem: 1,
             components: "CriptoCoins",
-            tabs: ["Main", "CriptoCoins", "Projects", "News", "KnowLedge", "Files", "Comments"]
+            tabs: ["Main", "CriptoCoins", "Projects", "News", "KnowLedge", "Files", "Comments"],
+            routeTitle: 'Админ панель'
         };
     },
     computed: {
@@ -153,10 +154,31 @@ export default {
             this.$store.dispatch('user/logout')
             this.$router.push('/login')
         },
+        setRouterWithParams(e) {
+            if (e.includes('projects')) {
+                this.components = 'Projects'
+            } else if (e.includes('crypto-coins')) {
+                this.components = 'CriptoCoins'
+            } else if (e.includes('crypto-news')) {
+                this.components = 'News'
+            } else if (e.includes('knowledge')) {
+                this.components = 'KnowLedge'
+            } else if (e.includes('files')) {
+                this.components = 'Files'
+            } else if (e.includes('comments')) {
+                this.components = 'Comments'
+            }
+        }
     },
     mounted() {
         if (this.$route.path === "/admin") {
             document.querySelector('body').style.padding = '0px'
+        }
+        this.setRouterWithParams(this.$route.fullPath)
+    },
+    watch: {
+        $route(to) {
+            this.setRouterWithParams(to.fullPath)
         }
     }
 };

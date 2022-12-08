@@ -14,7 +14,10 @@
             </div>
             <ckeditor v-model="editorData" :value="editorData"></ckeditor>
             <mdbInput label="ID проекта (Требуется если тип новости Обзоры)" type="number" v-model="idProject" />
-            <mdbInput label="ID фото" type="number" v-model="idPhoto" />
+            <label for="photo" class="">
+                Выбрать завгланое фото
+                <input type="file" id="photo" @change="setPhotoNews" ref="imageRef">
+            </label>
             <mdbInput label="Теги статьи через запятую" v-model="tags" />
             <mdbBtn type="submit">Добавить</mdbBtn>
             <mdbBtn color="danger" type="btn" @click="cancel">Отменить</mdbBtn>
@@ -33,7 +36,10 @@
             </div>
             <ckeditor v-model="editorData" :value="editorData"></ckeditor>
             <mdbInput label="ID проекта (Требуется если тип новости Обзоры)" type="number" v-model="idProject" />
-            <mdbInput label="ID фото" type="number" v-model="idPhoto" />
+            <label for="photo" class="">
+                Изменить завгланое фото
+                <input type="file" id="photo" @change="setPhotoNews" ref="imageRef">
+            </label>
             <mdbInput label="Теги статьи через запятую" v-model="tags" />
             <mdbBtn type="submit">Добавить изменения</mdbBtn>
             <mdbBtn color="danger" type="btn" @click="cancel">Отменить</mdbBtn>
@@ -82,6 +88,27 @@ export default {
         }
     },
     methods: {
+        async setPhotoNews() {
+            try {
+                let image = this.$refs.imageRef.files[0]
+                const formData = new FormData();
+                formData.append('file', image);
+                formData.append('post_type', image.postType);
+                formData.append('post_id', image.postId);
+                formData.append('comment', image.comment);
+                const headers = { 'Content-Type': 'multipart/form-data' };
+                const postedFile = await this.$axios.$post('files', formData, { headers })
+                    .then(res => {
+                        return res
+                    })
+                if (postedFile) {
+                    this.idPhoto = postedFile.id
+                    this.$toast.success(`${postedFile.name} добавлен успешно`);
+                }
+            } catch (error) {
+                this.$toast.error(`Что-то пошло не так`);
+            }
+        },
         cancel() {
             this.$store.dispatch('forms/closePopup')
         },
@@ -164,5 +191,11 @@ export default {
 
 .news {
     max-width: 900px;
+}
+
+.news label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 </style>

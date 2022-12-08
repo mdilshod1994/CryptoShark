@@ -32,7 +32,7 @@ export default {
   mounted() {
     const accessData = this.$cookies.get('user')
     if (accessData) {
-      this.$store.dispatch('user/setData')
+      this.$store.commit('user/setData')
     }
   }
 };

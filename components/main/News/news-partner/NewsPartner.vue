@@ -3,9 +3,11 @@
         <h2 class="news-partners__caption"><i class="ic ic-title-partners"></i> Друзья и партнёры</h2>
         <div class="news-partners-body" v-if="news.length">
             <div class="news-partners-main">
-                <a href="#" class="news-partners-main-body">
-                    <div class="news-partners-main__image"><img
-                            src="@/assets/images/content/news/news-partners-image.jpg" alt="img"></div>
+                <nuxt-link :to="`/news/${news[0].id}`" class="news-partners-main-body">
+                    <div class="news-partners-main__image">
+                        <img :src="`${news[0].photo.server}/${news[0].photo.path}`" alt="img" v-if="news[0].photo">
+                        <img src="@/assets/images/content/news/news-partners-image.jpg" alt="img" v-else>
+                    </div>
                     <div class="news-partners-main-content">
                         <div class="news-partners-main__title">{{ news[0].name }}</div>
                         <div class="news-partners-main-info">
@@ -14,7 +16,7 @@
                             }} </div>
                         </div>
                     </div>
-                </a>
+                </nuxt-link>
             </div>
             <NewsPartnerList />
         </div>

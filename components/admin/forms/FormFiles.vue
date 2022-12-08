@@ -66,11 +66,10 @@ export default {
                     this.$toast.success(`${postedFile.name} добавлен успешно`);
                     this.$store.dispatch('forms/closePopup')
                     this.$store.dispatch('files/fetchFiles')
-                } else {
-                    this.$toast.error(`Что-то пошло не так`);
                 }
                 return postedFile
             } catch (error) {
+                this.$toast.error(`Что-то пошло не так`);
                 console.error(error);
             }
         },

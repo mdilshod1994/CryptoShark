@@ -22,7 +22,7 @@
             <mdbCol v-for="item in news" :key="item.id" class="mb-4" xl="3" lg="4" md="4" sm="6">
                 <mdbCard>
                     <img :src="`${item.photo.server}/${item.photo.path}`" top alt="..."  v-if="item.photo" class="card-img" />
-                    <img src="http://artinblog.ru/uploads/posts/2013-04/1367159240_300x200.jpg" top alt="..." v-else />
+                    <img src="http://artinblog.ru/uploads/posts/2013-04/1367159240_300x200.jpg" top alt="..." v-else class="card-img"/>
                     <mdbCardBody>
                         <mdbCardTitle class="admin-news-title">{{ item.name }}</mdbCardTitle>
                         <mdbCardText v-html="item.content" class="admin-news-content">

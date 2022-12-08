@@ -120,7 +120,7 @@ h1.intro__title {
     font-weight: 700;
     letter-spacing: -0.01em;
     position: relative;
-    z-index: 999;
+    z-index: 9;
 }
 
 h1.intro__title img {
@@ -134,7 +134,7 @@ h1.intro__title img {
     padding: 0 52px;
     font-size: 14px;
     position: relative;
-    z-index: 999;
+    z-index: 9;
 }
 
 @media only screen and (max-width: 1279px) {

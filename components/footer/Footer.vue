@@ -29,16 +29,16 @@
                         <div class="footer-nav-section">
                             <div class="footer-nav__caption">О проекте</div>
                             <ul class="footer-nav-list">
-                                <li><nuxt-link to="/ads" target="_blank">Рекламодателям</nuxt-link></li>
-                                <li><nuxt-link to="/feedback" target="_blank">Обратная связь</nuxt-link></li>
+                                <li><nuxt-link to="/ads" >Рекламодателям</nuxt-link></li>
+                                <li><nuxt-link to="/feedback" >Обратная связь</nuxt-link></li>
                             </ul>
                         </div>
                         <div class="footer-nav-section">
                             <div class="footer-nav__caption">Правовые документы</div>
                             <ul class="footer-nav-list">
-                                <li><nuxt-link to="/privacy-notice" target="_blank">Политика
+                                <li><nuxt-link to="/privacy-notice" >Политика
                                         конфиденциальности</nuxt-link></li>
-                                <li><nuxt-link to="/terms-and-conditions" target="_blank">Пользовательское
+                                <li><nuxt-link to="/terms-and-conditions" >Пользовательское
                                         соглашение</nuxt-link></li>
                             </ul>
                         </div>

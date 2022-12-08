@@ -34,7 +34,7 @@ export const mutations = {
         state.newsType2 = news
     },
     setNewsType3(state, news) {
-        state.newsType3 = news
+        state.newsType3 = news.reverse()
     },
     setNewsComments(state, comments) {
         state.newsComments = comments
@@ -52,6 +52,7 @@ export const actions = {
                     return res.data
                 })
             ctx.commit('setNewsType1', newsType1)
+            return newsType1
         } catch (error) {
             console.error(error);
         }
@@ -63,6 +64,7 @@ export const actions = {
                     return res.data
                 })
             ctx.commit('setNewsType2', newsType2)
+            return newsType2
         } catch (error) {
             console.error(error);
         }
@@ -74,6 +76,7 @@ export const actions = {
                     return res.data
                 })
             ctx.commit('setNewsType3', newsType3)
+            return newsType3
         } catch (error) {
             console.error(error);
         }
@@ -111,10 +114,10 @@ export const actions = {
         }
     },
     async allNews(ctx) {
-        const news = await this.$axios.$get('front/articles')
-            .then(res => {
-                return res.data
-            })
+        const news1 = await ctx.dispatch('getNewsType1')
+        const news2 = await ctx.dispatch('getNewsType2')
+        const news3 = await ctx.dispatch('getNewsType3')
+        const news = [...news1, ...news2, ...news3,]
         ctx.commit('setAllNews', news)
     }
 }

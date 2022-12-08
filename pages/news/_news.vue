@@ -60,6 +60,7 @@ import 'swiper/swiper-bundle.min.css'
 import Likes from '~/components/UI/Likes.vue';
 
 export default {
+    layout:'default',
     head() {
         return {
             title: this.singleNews.name
