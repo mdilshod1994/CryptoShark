@@ -18,7 +18,11 @@ export default {
                 let min = Math.floor((timestamp - (e * 1000)) / 60000)
                 let hours = Math.floor(min / 60);
                 if (min < 60) {
-                    return min + ' минут назад'
+                    if (min === 0) {
+                        return '1 минут назад'
+                    } else {
+                        return min + ' минут назад'
+                    }
                 } else if (min >= 60 && hours < 24) {
                     return hours + ' час назад'
                 } else if (hours > 24) {
