@@ -3,7 +3,7 @@
         <mdbRow class="mb-4">
             <mdbCol xl="6">
                 <h1>
-                    Проекты
+                    Категория проектов
                 </h1>
             </mdbCol>
             <mdbCol xl="6">
@@ -19,37 +19,34 @@
             </mdbCol>
         </mdbRow>
         <mdbRow>
-            <!-- <mdbCol v-for="file, index in files" :key="file.id" class="mb-4" xl="3" lg="4" md="4" sm="6">
-                <mdbCard class="card-file">
-                    <img :src="`${file.server}/${file.path}`" top alt="..." />
-                    <mdbCardBody>
-                        <mdbCardText class="news-content">
-                            Name: {{ file.name }}
-                        </mdbCardText>
-                        <div class="d-flex align-items-center">
-                            <mdbBtn tag="a" @click="copyLink({ file, index })"
-                                class="d-flex align-items-center w-100"
-                                :color="index === currIndex ? btnColor : 'primary'">
-                                <img src="@/assets/admin-icons/copy.svg" class="mr-2" alt="">
-                                <p v-if="index === currIndex ? showText : false" class="m-0">Скопирована</p>
-                                <p v-else class="m-0">Скопировать ссылку</p>
-                            </mdbBtn>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <mdbBtn tag="a" @click="editFile()" class="w-50">
-                                <img src="@/assets/admin-icons/edit.svg" alt="">
-                            </mdbBtn>
-                            <mdbBtn tag="a" color="danger" class="w-50" @click="deleteFile(file)">
-                                <img src="@/assets/admin-icons/trash.svg" alt="">
-                            </mdbBtn>
-                        </div>
-                    </mdbCardBody>
-                </mdbCard>
-            </mdbCol> -->
             <mdbCol>
-                <p>
-                    Здесь пока ничего нет
-                </p>
+                <table class="w-100 custom-table custom-table-comments">
+                    <thead class="bg-light w-100 mb-4">
+                        <tr style="width: 100%; display: flex; padding: 10px 5px;">
+                            <th class="name">Категория</th>
+                            <th class="actions category">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in categories" :key="item.id"
+                            style="width: 100%; display: flex; border-bottom: 1px solid rgba(0, 0, 0, 0.2); padding: 10px 5px;">
+                            <td class="name d-flex align-items-center">
+                                <div class="d-flex align-items-center w-100">
+                                    <p>{{ item.name }}</p>
+                                </div>
+                            </td>
+                            <td class="d-flex align-items-center actions category">
+                                <mdbBtn class="m-0 mr-2 p-0 pl-3 pr-3" @click="editProject(item)" title="Изменить">
+                                    <img src="@/assets/admin-icons/edit.svg" alt="">
+                                </mdbBtn>
+                                <mdbBtn class="m-0 p-0 pl-3 pr-3" color="danger" @click="deleteProject(item)"
+                                    title="Удалить">
+                                    <img src="@/assets/admin-icons/trash.svg" alt="">
+                                </mdbBtn>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </mdbCol>
         </mdbRow>
     </div>
@@ -80,50 +77,36 @@ export default {
     },
     data() {
         return {
-            showText: false,
-            btnColor: 'primary',
-            currIndex: null
         }
     },
     computed: {
-        files() {
-            return this.$store.getters['files/FILES']
+        categories() {
+            return this.$store.getters['category-projects/CATEGORIES']
         }
     },
     methods: {
-        copyLink(e) {
-            this.btnColor = 'success'
-            this.showText = true
-            this.currIndex = e.index
-            setTimeout(() => {
-                this.showText = false
-                this.currIndex = null
-                this.btnColor = 'primary'
-            }, 5000);
-            navigator.clipboard.writeText(`${e.file.server}/${e.file.path}`)
-
-        },
-        editFile(e) {
-            // this.$store.dispatch('forms/openPopup', { tab: 'Files', info: e })
-        },
         openPopup() {
-            this.$store.dispatch('forms/openPopup', { tab: 'Files', info: null })
+            this.$store.dispatch('forms/openPopup', { tab: 'ProjectCategory', info: null })
         },
-        async deleteFile(e) {
-            const deletedFile = await this.$axios.$delete(`files/${e.id}`)
+        editProject(e) {
+            this.$store.dispatch('forms/openPopup', { tab: 'ProjectCategory', info: e })
+        },
+        async deleteProject(e) {
+            // const deletedFile = await this.$axios.$delete( `projectsCategories/${e.id}`)
+            const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories/${e.id}`)
                 .then(res => {
                     return res
                 })
             if (deletedFile) {
-                this.$store.dispatch('files/fetchFiles')
-                this.$toast.success(`${e.name} удален успешно`);
+                this.$store.dispatch('category-projects/fetchCategories')
+                this.$toast.success(`Категорий удален успешно`);
             } else {
                 this.$toast.error(`Что-то пошло не так`);
             }
         }
     },
     async mounted() {
-        await this.$store.dispatch('files/fetchFiles')
+        await this.$store.dispatch('category-projects/fetchCategories')
     }
 }
 </script>
@@ -154,5 +137,67 @@ export default {
 .card-file {
     overflow: hidden;
     border-radius: 1.25rem !important;
+}
+
+.custom-table-comments .name {
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+.custom-table-comments .actions {
+    width: 170px;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.custom-table-comments .category {
+    width: 125px !important;
+}
+
+.custom-table-comments .actions a,
+.custom-table-comments .actions button {
+    width: 53px;
+    height: 47px;
+    flex-shrink: 0;
+}
+
+.custom-table-comments .actions a img,
+.custom-table-comments .actions button img {
+    width: 21px;
+    height: 21px;
+}
+
+@media screen and (max-width: 768px) {
+    .custom-table-comments .actions {
+        display: none;
+    }
+
+    .custom-table-comments tr {
+        flex-direction: column;
+    }
+
+    .custom-table-comments tr textarea {
+        margin-bottom: 15px;
+        font-size: 12px;
+        height: fit-content;
+    }
+}
+
+@media screen and (max-width: 540px) {
+
+    .custom-table-comments .actions a,
+    .custom-table-comments .actions button {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    .custom-table-comments tr textarea {
+        margin-bottom: 15px;
+    }
 }
 </style>
