@@ -99,7 +99,7 @@ export default {
                 })
             if (deletedFile) {
                 this.$store.dispatch('category-projects/fetchCategories')
-                this.$toast.success(`Категорий удален успешно`);
+                this.$toast.success(`Категория удален успешно`);
             } else {
                 this.$toast.error(`Что-то пошло не так`);
             }

@@ -21,7 +21,6 @@ export const actions = ({
             .then(res => {
                 return res.data
             })
-        console.log(categories);
         ctx.commit('setCategories', categories)
     }
 })

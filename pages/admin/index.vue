@@ -2,22 +2,39 @@
     <div class="flexible-content">
         <mdb-navbar class="flexible-navbar white table-mob-vers" light position="top" scrolling>
             <mdb-navbar-toggler>
-                <mdb-navbar-nav left>
+                <mdb-navbar-nav left class="">
                     <!-- <mdb-nav-item waves-fixed @click="components = 'Main'" :class="{ active: components === 'Main' }">
                         Главная</mdb-nav-item> -->
                     <mdb-nav-item waves-fixed @click="components = 'CriptoCoins'"
                         :class="{ active: components === 'CriptoCoins' }">
-                        Криптовалюты</mdb-nav-item>
-                    <mdb-nav-item waves-fixed @click="components = 'Projects'"
-                        :class="{ active: components === 'Projects' }">
-                        Проекты</mdb-nav-item>
+                        <router-link to="/admin?crypto-coins">Криптовалюты</router-link>
+                    </mdb-nav-item>
+                    <mdb-nav-item waves-fixed @click="components = 'CategoriesProject'"
+                        :class="{ active: components === 'CategoriesProject' }">
+                        <router-link to="/admin?category-projects">Категории проектов</router-link>
+                    </mdb-nav-item>
                     <mdb-nav-item waves-fixed @click="components = 'News'" :class="{ active: components === 'News' }">
-                        Криптоновости</mdb-nav-item>
+                        <router-link to="/admin?crypto-news">
+                            Криптоновости
+                        </router-link>
+                    </mdb-nav-item>
                     <mdb-nav-item waves-fixed @click="components = 'KnowLedge'"
-                        :class="{ active: components === 'KnowLedge' }">База
-                        знаний</mdb-nav-item>
+                        :class="{ active: components === 'KnowLedge' }">
+                        <router-link to="/admin?knowledge">
+                            База знаний
+                        </router-link>
+                    </mdb-nav-item>
                     <mdb-nav-item waves-fixed @click="components = 'Files'" :class="{ active: components === 'Files' }">
-                        Файлы</mdb-nav-item>
+                        <router-link to="/admin?files">
+                            Файлы
+                        </router-link>
+                    </mdb-nav-item>
+                    <mdb-nav-item waves-fixed @click="components = 'Comments'"
+                        :class="{ active: components === 'Comments' }">
+                        <router-link to="/admin?comments">
+                            Комментарии
+                        </router-link>
+                    </mdb-nav-item>
                 </mdb-navbar-nav>
                 <mdb-navbar-nav right>
                     <mdb-nav-item waves-fixed class="border border-light rounded mr-1" @click="logout">Выйти
@@ -34,10 +51,10 @@
                         <img src="@/assets/admin-icons/1.svg" alt=""> Криптовалюты
                     </mdb-list-group-item>
                 </router-link>
-                <router-link to="/admin?projects" @click.native="components = 'Projects'">
+                <router-link to="/admin?category-projects" @click.native="components = 'CategoriesProject'">
                     <mdb-list-group-item class="custom-list-item" :action="true"
-                        :class="{ active: components === 'Projects' }">
-                        <img src="@/assets/admin-icons/2.svg" alt=""> Проекты
+                        :class="{ active: components === 'CategoriesProject' }">
+                        <img src="@/assets/admin-icons/2.svg" alt=""> Категории проектов
                     </mdb-list-group-item>
                 </router-link>
                 <router-link to="/admin?crypto-news" @click.native="components = 'News'">
@@ -64,6 +81,12 @@
                         <img src="@/assets/admin-icons/6.svg" alt=""> Комментарии
                     </mdb-list-group-item>
                 </router-link>
+                <router-link to="/admin?projects" @click.native="components = 'Projects'">
+                    <mdb-list-group-item class="custom-list-item" :action="true"
+                        :class="{ active: components === 'Projects' || components === 'AddProject' || components === 'EditProject' }">
+                        <img src="@/assets/admin-icons/7.svg" alt=""> Проекты
+                    </mdb-list-group-item>
+                </router-link>
             </mdb-list-group>
             <mdb-navbar-nav class="btn-logout">
                 <mdb-nav-item waves-fixed class="border border-light rounded mr-1" @click="logout">Выйти
@@ -81,11 +104,14 @@
   
 <script>
 import CriptoCoins from '@/components/admin/cryptocoins/CriptoCoins.vue'
-import Projects from '@/components/admin/projects/Projects.vue'
+import CategoriesProject from '~/components/admin/category-project/CategoriesProject.vue'
 import News from '@/components/admin/news/News.vue'
 import KnowLedge from '@/components/admin/knowledge/Knowledge.vue'
 import Files from '@/components/admin/files/Files.vue'
 import Comments from '@/components/admin/comments/Comments.vue'
+import Projects from '@/components/admin/projects/ProjectList.vue'
+import AddProject from '@/components/admin/projects/AddNewProject.vue'
+import EditProject from '@/components/admin/projects/EditProject.vue'
 
 
 import {
@@ -115,10 +141,13 @@ export default {
     components: {
         News,
         CriptoCoins,
-        Projects,
+        CategoriesProject,
         KnowLedge,
         Files,
         Comments,
+        Projects,
+        AddProject,
+        EditProject,
         mdbNavbar,
         mdbNavbarBrand,
         mdbNavItem,
@@ -137,7 +166,7 @@ export default {
         return {
             activeItem: 1,
             components: "CriptoCoins",
-            tabs: ["Main", "CriptoCoins", "Projects", "News", "KnowLedge", "Files", "Comments"],
+            tabs: ["Main", "CriptoCoins", "CategoriesProject", "News", "KnowLedge", "Files", "Comments", "Projects", "AddProject", "EditProject"],
             routeTitle: 'Админ панель'
         };
     },
@@ -155,8 +184,8 @@ export default {
             this.$router.push('/login')
         },
         setRouterWithParams(e) {
-            if (e.includes('projects')) {
-                this.components = 'Projects'
+            if (e.includes('category-projects')) {
+                this.components = 'CategoriesProject'
             } else if (e.includes('crypto-coins')) {
                 this.components = 'CriptoCoins'
             } else if (e.includes('crypto-news')) {
@@ -167,6 +196,12 @@ export default {
                 this.components = 'Files'
             } else if (e.includes('comments')) {
                 this.components = 'Comments'
+            } else if (e.includes('projects')) {
+                this.components = 'Projects'
+            } else if (e.includes('add-project')) {
+                this.components = 'AddProject'
+            } else if (e.includes('edit-project')) {
+                this.components = 'EditProject'
             }
         }
     },
@@ -207,6 +242,10 @@ export default {
 
 .table-mob-vers {
     display: none;
+}
+
+.table-mob-vers .navbar-nav:nth-child(1) {
+    margin-bottom: 40px;
 }
 
 .custom-main {

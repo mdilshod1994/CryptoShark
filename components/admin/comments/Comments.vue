@@ -9,7 +9,7 @@
         </mdbRow>
         <mdbRow>
             <mdbCol>
-                <table class="w-100 custom-table custom-table-comments">
+                <table class="w-100 custom-table custom-table-comments" v-if="comments.length">
                     <thead class="bg-light w-100 mb-4">
                         <tr style="width: 100%; display: flex; padding: 10px 5px;">
                             <th class="name">Комментарий</th>
@@ -51,6 +51,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <p v-else>
+                    Пока комментариев нет
+                </p>
             </mdbCol>
         </mdbRow>
     </div>
@@ -230,7 +233,8 @@ export default {
         height: 40px;
         flex-shrink: 0;
     }
-    .custom-table-comments tr textarea{
+
+    .custom-table-comments tr textarea {
         margin-bottom: 15px;
     }
 }
