@@ -123,9 +123,9 @@ export default {
             }
         }
     },
-    async mounted() {
-        await this.$store.dispatch('files/fetchFiles')
-    }
+    // async mounted() {
+    //     await this.$store.dispatch('files/fetchFiles')
+    // }
 }
 </script>
 <style>

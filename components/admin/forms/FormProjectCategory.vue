@@ -71,8 +71,8 @@ export default {
                     id: this.file.categoryId,
                     name: this.file.categoryName
                 }
-                const changedCategory = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories/${this.tabInfo.id}`, objCategory)
-                // const changedCategory = await this.$axios.$put(`projectsCategories/${this.tabInfo.id}`, objCategory)
+                // const changedCategory = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories/${this.tabInfo.id}`, objCategory)
+                const changedCategory = await this.$axios.$put(`projectsCategories/${this.tabInfo.id}`, objCategory)
                     .then(res => {
                         return res
                     })

@@ -27,7 +27,18 @@
 <script>
 import ProjectItem from './ProjectItem.vue';
 export default {
-    components: { ProjectItem }
+    components: { ProjectItem },
+    data() {
+        return {
+
+        }
+    },
+    computed: {
+
+    },
+    async mounted() {
+        await this.$store.dispatch('projects/fetchProjects')
+    }
 }
 </script>
 <style>

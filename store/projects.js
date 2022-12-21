@@ -16,12 +16,17 @@ export const mutations = {
 
 export const actions = {
     async fetchProjects(ctx) {
-        const projects = await this.$axios.$get('/projects')
-            .then(res => {
-                return res.data
-            })
-        if (projects) {
-            ctx.commit('setProjects', projects)
+        try {
+            const projects = await this.$axios.$get('front/projects')
+                .then(res => {
+                    return res.data
+                })
+            if (projects) {
+                ctx.commit('setProjects', projects)
+            }
+        } catch (error) {
+            console.log(error);
         }
+
     }
 }

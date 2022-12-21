@@ -19,7 +19,7 @@
             </mdbCol>
         </mdbRow>
         <mdbRow>
-            <mdbCol v-for="file, index in files" :key="file.id" class="mb-3" xxl="2" xl="2" lg="3" md="4" sm="6">
+            <mdbCol v-for="file, index in files.data" :key="file.id" class="mb-3" xxl="2" xl="2" lg="3" md="4" sm="6">
                 <mdbCard class="card-file">
                     <img :src="`${file.server}/${file.path}`" top alt="..."
                         style="height: 167px; object-fit: contain;" />
@@ -45,6 +45,26 @@
                         </div>
                     </mdbCardBody>
                 </mdbCard>
+            </mdbCol>
+        </mdbRow>
+        <mdbRow>
+            <mdbCol>
+                <div class="admin-pagination">
+                    <div class="admin-pagination-numbers" v-if="files.pagination">
+                        <mdbBtn color="light" @click="setToFirstPage" :class="`${currPage == 1 ? 'disabled' : ''}`">
+                            {{ firstPage }}
+                        </mdbBtn>
+                        <mdbBtn v-for="page in files.pagination.totalPage" :key="page" @click="setPage(page)"
+                            color="light"
+                            :class="`admin-pagination-number ${page == $route.query.page ? 'active' : ''}`">
+                            {{ page }}
+                        </mdbBtn>
+                        <mdbBtn color="light" @click="setToLastPage"
+                            :class="`${currPage == files.pagination.totalPage ? 'disabled' : ''}`">
+                            {{ lastPage }}
+                        </mdbBtn>
+                    </div>
+                </div>
             </mdbCol>
         </mdbRow>
     </div>
@@ -77,15 +97,48 @@ export default {
         return {
             showText: false,
             btnColor: 'primary',
-            currIndex: null
+            currIndex: null,
+            firstPage: '<<',
+            lastPage: '>>',
+            currPage: +this.$route.query.page || 1
         }
     },
     computed: {
         files() {
             return this.$store.getters['files/FILES']
-        }
+        },
     },
     methods: {
+        async setPage(page) {
+            try {
+                this.currPage = page
+                this.$router.push({ path: `admin?files`, query: { page: page } })
+                this.$store.dispatch('files/fetchFiles', page)
+            } catch (error) {
+                this.$toast.error(`Что-то пошло не так`);
+                console.log(error);
+            }
+        },
+        async setToFirstPage() {
+            try {
+                this.$router.push({ path: `admin?files`, query: { page: 1 } })
+                await this.$store.dispatch('files/fetchFiles', 1)
+                this.currPage = 1
+            } catch (error) {
+                this.$toast.error(`Что-то пошло не так`);
+                console.log(error);
+            }
+        },
+        async setToLastPage() {
+            try {
+                this.currPage = this.files.pagination.totalPage
+                this.$router.push({ path: `admin?files`, query: { page: +this.files.pagination.totalPage } })
+                await this.$store.dispatch('files/fetchFiles', +this.files.pagination.totalPage)
+            } catch (error) {
+                this.$toast.error(`Что-то пошло не так`);
+                console.log(error);
+            }
+        },
         copyLink(e) {
             this.btnColor = 'success'
             this.showText = true
@@ -98,31 +151,53 @@ export default {
             navigator.clipboard.writeText(`${e.file.server}/${e.file.path}`)
 
         },
-        editFile(e) {
-            // this.$store.dispatch('forms/openPopup', { tab: 'Files', info: e })
-        },
         openPopup() {
             this.$store.dispatch('forms/openPopup', { tab: 'Files', info: null })
         },
         async deleteFile(e) {
-            const deletedFile = await this.$axios.$delete(`files/${e.id}`)
-                .then(res => {
-                    return res
-                })
-            if (deletedFile) {
-                this.$store.dispatch('files/fetchFiles')
-                this.$toast.success(`${e.name} удален успешно`);
-            } else {
-                this.$toast.error(`Что-то пошло не так`);
+            try {
+                // const deletedFile = await this.$axios.$delete(`files/${e.id}`)
+                const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `files/${e.id}`)
+                    .then(res => {
+                        return res
+                    })
+                if (deletedFile) {
+                    this.$store.dispatch('files/fetchFiles', this.currPage)
+                    this.$toast.success(`${e.name} удален успешно`);
+                }
+            } catch (error) {
+                if (error) {
+                    this.$toast.error(`Что-то пошло не так`);
+                    console.log(error);
+                }
             }
         }
     },
     async mounted() {
-        await this.$store.dispatch('files/fetchFiles')
-    }
+        try {
+            if (this.$route.fullPath.includes('/admin?files')) {
+                this.$router.push({ path: `admin?files`, query: { page: this.currPage } })
+                await this.$store.dispatch('files/fetchFiles', this.currPage)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
 }
 </script>
 <style scoped>
+.admin-pagination-numbers,
+.admin-pagination {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.admin-pagination-numbers {
+    gap: 10px;
+}
+
 .inner-component {
     padding-bottom: 70px;
     margin: 5px auto 70px;

@@ -25,43 +25,47 @@
                 <table class="w-100 custom-table">
                     <thead class="bg-light w-100 mb-4">
                         <tr style="width: 100%; display: flex; padding: 10px 5px;">
-                            <th class="name">Name</th>
-                            <th class="ararage">Объем(24ч)</th>
-                            <th style="width: 20%" class="mob-ver">Капитализация</th>
-                            <th style="width: 20%" class="mob-ver">Volume(24h)</th>
-                            <th class="actions">Actions</th>
+                            <th class="name">Название</th>
+                            <th class="ararage">Ареа</th>
+                            <th style="width: 20%" class="mob-ver">Сайт</th>
+                            <th style="width: 20%" class="mob-ver">Макс. интерес</th>
+                            <th class="actions">Действия</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in projects" :key="item.id"
+                        <tr v-for="(item) in projects" :key="item.id"
                             style="width: 100%; display: flex; border-bottom: 1px solid rgba(0, 0, 0, 0.2); padding: 10px 5px;">
                             <td class="name d-flex align-items-center">
                                 <div class="d-flex align-items-center">
-                                    <p class=" m-0 mr-2 " style="font-weight: bold">{{ index + 1 }}</p>
-                                    <img :src="item.logo_url" alt="" style="width: 45px; height: 45px"
-                                        class="rounded-circle" />
-                                    <p class=" m-0 ml-2 " style="font-weight: bold">{{ item.name }}</p>
-                                    <p class=" m-0 ml-2 mob-ver" style="font-weight: normal; color: gray;">{{
-                                            item.symbol
-                                    }}
-                                    </p>
+                                    <img :src="`${item.icon_server}/${item.icon_path}`" alt=""
+                                        style="width: 45px; height: 45px" class="rounded-circle"
+                                        v-if="item.icon_path" />
+                                    <img src="https://crypto-shark-dev.ru/writable/uploads/image-empty.jpg" alt=""
+                                        style="width: 45px; height: 45px" class="rounded-circle" v-else />
+                                    <div class="admin-project-name">
+                                        <p class=" m-0 ml-2 d-flex" style="font-weight: bold">
+                                            {{ item.name }}
+                                            <span class=" m-0 ml-2 mob-ver" style="font-weight: normal; color: gray;">
+                                                {{ item.symbol }}
+                                            </span>
+                                        </p>
+                                        <p v-for="categoryId in pojectCategoryId" :key="categoryId.id"
+                                            v-show="categoryId.id === item.projects_categories_id" class=" m-0 ml-2 ">
+                                            {{ categoryId.name }}
+                                        </p>
+                                    </div>
+
                                 </div>
                             </td>
                             <td class="d-flex align-items-center ararage">
-                                <!-- <p class=" m-0 ml-2 mr-2 fw-bold"> ${{ (item.vwap24Hr).toFixed(2) }}</p> <span>/</span>
-                                <p :class="`m-0 ml-2 fw-bold ${item.priceUsd > item.vwap24Hr ? 'fall' : 'growth'}`">
-                                    {{ (item.changePercent24Hr).toFixed(2) }}%
-                                </p> -->
+                                <p class=" m-0 ml-2 mr-2 fw-bold"> {{ item.area }}</p>
                             </td>
                             <td style="width: 20%" class=" align-items-center mob-ver">
-                                <!-- <p class=" m-0 ml-2 mr-2 fw-bold"> {{ (item.marketCapUsd).toLocaleString("en-US",
-                                        { style: "currency", currency: "USD" })
-                                }}</p> -->
+                                <a :href="item.site" target="_blank" class=" m-0 ml-2 mr-2 fw-bold admin-project-link"
+                                    :title="item.site"> {{ item.site }}</a>
                             </td>
                             <td style="width: 20%" class=" align-items-center mob-ver">
-                                <!-- <p class=" m-0 ml-2 mr-2 fw-bold"> {{ (item.volumeUsd24Hr).toLocaleString("en-US",
-                                        { style: "currency", currency: "USD" })
-                                }}</p> -->
+                                <p class=" m-0 ml-2 mr-2 fw-bold"> {{ item.max_interest }}</p>
                             </td>
                             <td class="d-flex align-items-center actions">
                                 <mdbBtn class="m-0 mr-2 p-0 pl-3 pr-3" @click="editProject(item)">
@@ -110,13 +114,19 @@ export default {
     computed: {
         projects() {
             return this.$store.getters['projects/PROJECTS']
+        },
+        pojectCategoryId() {
+            return this.$store.getters['category-projects/CATEGORIES']
         }
     },
     methods: {
-        editProject() { },
+        editProject(project) {
+            this.$router.push({ path: `/admin?edit-project`, query: { id: project.id } })
+        },
         async deleteProject(project) {
             try {
                 const deletedProject = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projects/${project.id}`)
+                    // const deletedProject = await this.$axios.$delete(`projects/${project.id}`)
                     .then(res => {
                         return res
                     })
@@ -127,7 +137,6 @@ export default {
             } catch (error) {
                 console.log(error);
                 this.$toast.error(`Что-то пошло не так`);
-
             }
         },
         openPopup() {
@@ -136,9 +145,15 @@ export default {
     },
     async mounted() {
         await this.$store.dispatch('projects/fetchProjects')
+        await this.$store.dispatch('category-projects/fetchCategories')
     }
 }
 </script>
 <style>
-
+.admin-project-link {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
 </style>

@@ -16,8 +16,8 @@ export const mutations = ({
 
 export const actions = ({
     async fetchCategories(ctx) {
-        // const categories = await this.$axios.$get(`projectsCategories`)
-        const categories = await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories`)
+        const categories = await this.$axios.$get(`projectsCategories`)
+        // const categories = await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories`)
             .then(res => {
                 return res.data
             })

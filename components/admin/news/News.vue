@@ -38,7 +38,6 @@
                 </mdbCard>
             </mdbCol>
         </mdbRow>
-
     </div>
 </template>
 <script>

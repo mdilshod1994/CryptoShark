@@ -40,7 +40,7 @@ export default {
     },
     computed: {
         fearIndex() {
-            let tempFear = 65
+            let tempFear = this.fearIndexPercent
             if (tempFear >= 0) {
                 return ((tempFear / 100) * 178) + 271
             } else {
@@ -48,7 +48,14 @@ export default {
             }
         },
         fearIndexPercent() {
-            return 65
+            let percent = 31
+            if (percent >= 100) {
+                return 100
+            } else if (percent <= 0) {
+                return 0
+            } else {
+                return percent
+            }
         }
     },
 }

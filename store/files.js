@@ -15,10 +15,11 @@ export const mutations = {
 }
 
 export const actions = {
-    async fetchFiles(ctx) {
-        const files = await this.$axios.$get('/files')
+    async fetchFiles(ctx, page) {
+        const files = await this.$axios.$get(`files?page=${page}&limit=50`)
+        // const files = await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `files?page=${page}&limit=10`)
             .then(res => {
-                return res.data
+                return res
             })
         if (files) {
             ctx.commit('setFiles', files)
