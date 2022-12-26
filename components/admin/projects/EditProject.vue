@@ -266,7 +266,7 @@ export default {
                 photo_id: this.newProject.photo_id,
             }
             try {
-                const changedProject = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + 'projects', project)
+                const changedProject = await this.$axios.$put('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projects/${this.$route.query.id}`, project)
                     // const addedProject = await this.$axios.$put('projects', project)
                     .then(res => {
                         return res

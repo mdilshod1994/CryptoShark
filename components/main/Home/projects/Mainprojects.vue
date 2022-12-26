@@ -4,15 +4,15 @@
             <div class="mainprojects-row">
                 <div class="mainprojects-col">
                     <h4 class="mainprojects__caption">Будущие проекты</h4>
-                    <FutureProjects :futureP="futureP" />
+                    <FutureProjects />
                 </div>
                 <div class="mainprojects-col">
                     <h4 class="mainprojects__caption mainprojects__caption_gray">Завершенные проекты</h4>
-                    <CompletedProjects :completedP="completedP" />
+                    <CompletedProjects />
                 </div>
                 <div class="mainprojects-col">
                     <h4 class="mainprojects__caption">Активные проекты</h4>
-                    <ActiveProjects :activeP="activeP" />
+                    <ActiveProjects />
                 </div>
             </div>
         </div>
@@ -24,111 +24,8 @@ import CompletedProjects from './completed/CompletedProjectsList.vue';
 import ActiveProjects from './active/ActiveProjectsList.vue';
 export default {
     components: { FutureProjects, CompletedProjects, ActiveProjects },
-    data() {
-        return {
-            projects: [
-                {
-                    id: 1,
-                    name: 'Flatonica',
-                    regDay: "27 октября",
-                    fonds: 5,
-                    hipe: 4,
-                    tokenomica: 3,
-                    logo: require('@/assets/images/content/projects/projects-logo1.svg'),
-                    status: 'future'
-                },
-                {
-                    id: 2,
-                    name: 'DAO KONDR',
-                    regDay: "27 октября",
-                    fonds: 2,
-                    hipe: 1,
-                    tokenomica: 4,
-                    logo: require('@/assets/images/content/projects/projects-logo2.svg'),
-                    status: 'future'
-                },
-                {
-                    id: 3,
-                    name: 'DAO KONDR',
-                    regDay: "27 октября",
-                    fonds: 4,
-                    hipe: 4,
-                    tokenomica: 4,
-                    logo: require('@/assets/images/content/projects/projects-logo3.svg'),
-                    status: 'future'
-                },
-                {
-                    id: 4,
-                    name: 'DAO KONDR',
-                    regDay: "27 октября",
-                    fonds: 5,
-                    hipe: 5,
-                    tokenomica: 5,
-                    logo: require('@/assets/images/content/projects/projects-logo4.svg'),
-                    status: 'future'
-                },
-                {
-                    id: 5,
-                    name: 'Flatonica',
-                    regDay: "27 октября",
-                    logo: require('@/assets/images/content/projects/projects-logo1.svg'),
-                    status: 'completed',
-                    rateUp: 37,
-                    rateDown: 32
-                },
-                {
-                    id: 6,
-                    name: 'DAO KONDR',
-                    regDay: "27 октября",
-                    logo: require('@/assets/images/content/projects/projects-logo2.svg'),
-                    status: 'completed',
-                    rateUp: 37,
-                    rateDown: 32
-                },
-                {
-                    id: 7,
-                    name: 'DAO KONDR',
-                    regDay: "27 октября",
-                    logo: require('@/assets/images/content/projects/projects-logo3.svg'),
-                    status: 'completed',
-                    rateUp: 37,
-                    rateDown: 32
-                },
-                {
-                    id: 8,
-                    name: 'DAO KONDR',
-                    regDay: "27 октября",
-                    logo: require('@/assets/images/content/projects/projects-logo4.svg'),
-                    status: 'completed',
-                    rateUp: 37,
-                    rateDown: 32
-                },
-            ],
-            activeP: [],
-            completedP: [],
-            futureP: []
-        }
-    },
-    computed: {
-
-    },
-    methods: {
-        tempSorted() {
-            this.projects.filter(el => {
-                if (el.status === 'active') {
-                    this.activeP.push(el)
-                }
-                if (el.status === 'future') {
-                    this.futureP.push(el)
-                }
-                if (el.status === 'completed') {
-                    this.completedP.push(el)
-                }
-            })
-        }
-    },
-    mounted() {
-        this.tempSorted()
+    async mounted() {
+        await this.$store.dispatch('projects/fetchByType')
     }
 }
 </script>
@@ -139,6 +36,8 @@ export default {
     -webkit-box-shadow: inset 0px -3px 1px 1px #E8EAEF;
     box-shadow: inset 0px -3px 1px 1px #E8EAEF;
     border-radius: 18px;
+    position: relative;
+    z-index: 9;
 }
 
 .mainprojects-body {

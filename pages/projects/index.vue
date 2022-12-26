@@ -1,10 +1,12 @@
 <template>
     <div class="container">
-        <div class="projects">
+        <div class="projects" v-if="projects">
             <ProjectTabs />
-            <ProjectLIst />
-            <div class="projects-show">
-                <a href="#" class="projects-show__btn btn btn_big btn_full btn_blue">Показать ещё</a>
+            <ProjectLIstActive v-if="$route.fullPath.includes('active-projects')" :projects="projects" />
+            <ProjectLIstCompleted v-if="$route.fullPath.includes('completed-projects')" :projects="projects" />
+            <ProjectLIstFuture v-if="$route.fullPath.includes('future-projects')" :projects="projects" />
+            <div class="projects-show" v-if="projects.length > 0">
+                <a @click="toIncreaseLimit" class="projects-show__btn btn btn_big btn_full btn_blue">Показать ещё</a>
             </div>
         </div>
         <SubsTopCoinsComponent class="projects-mainnews" />
@@ -13,7 +15,9 @@
 </template>
 <script>
 import ProjectTabs from '@/components/main/projects/ProjectTabs.vue';
-import ProjectLIst from '@/components/main/projects/ProjectLIst.vue';
+import ProjectLIstActive from '@/components/main/projects/active/ProjectLIstActive.vue';
+import ProjectLIstFuture from '@/components/main/projects/future/ProjectLIstFuture.vue';
+import ProjectLIstCompleted from '@/components/main/projects/completed/ProjectLIstCompleted.vue';
 import SubsTopCoinsComponent from '@/components/reusecomponents/subscribe-topcoins/SubsTopCoinsComponent.vue';
 import TrendsCoins from '@/components/reusecomponents/trend-coins/TrendsCoins.vue';
 export default {
@@ -22,7 +26,55 @@ export default {
             title: "Проекты"
         }
     },
-    components: { ProjectTabs, ProjectLIst, SubsTopCoinsComponent, TrendsCoins }
+    components: { ProjectTabs, ProjectLIstActive, SubsTopCoinsComponent, TrendsCoins, ProjectLIstCompleted, ProjectLIstFuture },
+    data() {
+        return {
+            type: 1
+        }
+    },
+    computed: {
+        currLimit() {
+            return this.$route.query.limit
+        },
+        projects() {
+            return this.$store.getters['projects/FRONT_PROJECTS']
+        }
+    },
+    methods: {
+        async toIncreaseLimit() {
+            let limit = 10 + +this.currLimit
+            this.$router.push({ path: `/projects?limit=${limit}&type=${this.$route.query.type}` })
+        }
+    },
+    async mounted() {
+        function type(e) {
+            if (e.includes('future-projects')) {
+                return 1
+            } else if (e.includes('completed-projects')) {
+                return 2
+            } else if (e.includes('active-projects')) {
+                return 3
+            }
+        }
+        if (this.$route.query.type && this.$route.query.limit) {
+            this.$router.push({ path: `/projects?limit=${this.currLimit}&type=${this.$route.query.type}` })
+            await this.$store.dispatch('projects/fetchFrontProjects', { limits: this.currLimit, type: type(this.$route.query.type) })
+        } else {
+            this.$router.push({ path: `/projects?limit=10&type=future-projects` })
+            await this.$store.dispatch('projects/fetchFrontProjects', { limits: 10, type: 1 })
+        }
+    },
+    watch: {
+        $route(to) {
+            if (to.fullPath.includes('completed-projects')) {
+                this.$store.dispatch('projects/fetchFrontProjects', { limits: this.currLimit, type: 2 })
+            } else if (to.fullPath.includes('future-projects')) {
+                this.$store.dispatch('projects/fetchFrontProjects', { limits: this.currLimit, type: 1 })
+            } else if (to.fullPath.includes('active-projects')) {
+                this.$store.dispatch('projects/fetchFrontProjects', { limits: this.currLimit, type: 3 })
+            }
+        },
+    }
 }
 </script>
 <style >

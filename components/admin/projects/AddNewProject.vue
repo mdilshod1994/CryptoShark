@@ -613,7 +613,7 @@ export default {
                 const postedTeams = await this.postTeams(postedProject)
                 console.log('done team');
             }
-            window.location.reload()
+            // window.location.reload()
         },
         deleteLogoFunds(index) {
             this.logoFunds.splice(index, 1)

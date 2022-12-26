@@ -163,7 +163,7 @@ export default {
         }
     },
     async mounted() {
-        // await this.fetchStep()
+        await this.fetchStep()
     }
 }
 </script>

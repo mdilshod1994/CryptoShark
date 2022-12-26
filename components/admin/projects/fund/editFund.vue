@@ -40,7 +40,8 @@
                     <img v-if="logoFundsImagesView.length" class="logo" :src="logoFundsImagesView[index]" alt="">
                 </div>
             </div>
-            <mdbBtn class="adding-new-logos mt-4" type="submit" color="success" title="Добавить" v-if="logoFunds.length">
+            <mdbBtn class="adding-new-logos mt-4" type="submit" color="success" title="Добавить"
+                v-if="logoFunds.length">
                 Добавить
                 <img src="@/assets/admin-icons/add.svg" alt="">
             </mdbBtn>
@@ -109,8 +110,10 @@ export default {
                     if (postedFile) {
                         await this.fetchFund()
                         this.$toast.success(`Добавлен успешно`);
-                        this.logoFunds = []
-                        this.logoFundsImagesView = []
+                        if ((i + 1) == this.logoFunds.length) {
+                            this.logoFunds = []
+                            this.logoFundsImagesView = []
+                        }
                     }
                 }
             } catch (error) {
@@ -148,7 +151,7 @@ export default {
         }
     },
     async mounted() {
-        // await this.fetchFund()
+        await this.fetchFund()
     }
 }
 </script>
