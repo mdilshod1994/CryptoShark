@@ -9,21 +9,39 @@
             </nuxt-link>
         </div>
         <EmptyProjects v-else />
+        <loader v-if="loader" />
     </div>
 </template>
 <script>
 import EmptyProjects from '~/components/UI/EmptyProjects.vue';
 import PrimaryButton from '~/components/UI/PrimaryButton.vue';
 import ActiveProjectItem from './ActiveProjectItem.vue'
+import Loader from '~/components/UI/Loader.vue';
+
 export default {
-    components: { ActiveProjectItem, EmptyProjects, PrimaryButton },
+    components: { ActiveProjectItem, EmptyProjects, PrimaryButton, Loader },
+    data() {
+        return {
+            loader: true
+        }
+    },
     computed: {
         projects() {
             return this.$store.getters['projects/ACTIVE_PROJECTS']
         }
+    },
+    watch: {
+        projects(newValue) {
+            if (newValue) {
+                this.loader = false
+            }
+        }
     }
 }
 </script>
-<style lang="">
-    
+<style >
+/* .mainprojects-block {
+    position: relative;
+    overflow: hidden;
+} */
 </style>

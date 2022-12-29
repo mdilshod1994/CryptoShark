@@ -1,7 +1,7 @@
 <template>
     <div class="news-item">
         <div class="news-item__image">
-            <nuxt-link :to="`/news/${item.id}`"><img src="@/assets/images/content/news/news-image1.jpg" alt="img">
+            <nuxt-link :to="`/news/${item.id}`"><img :src="`${item.photo.server}/${item.photo.path}`" alt="img">
             </nuxt-link>
         </div>
         <div class="news-item__title">

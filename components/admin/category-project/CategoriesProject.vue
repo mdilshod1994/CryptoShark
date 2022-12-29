@@ -92,8 +92,8 @@ export default {
             this.$store.dispatch('forms/openPopup', { tab: 'ProjectCategory', info: e })
         },
         async deleteProject(e) {
-            const deletedFile = await this.$axios.$delete( `projectsCategories/${e.id}`)
-            // const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories/${e.id}`)
+            // const deletedFile = await this.$axios.$delete( `projectsCategories/${e.id}`)
+            const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories/${e.id}`)
                 .then(res => {
                     return res
                 })

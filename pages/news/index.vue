@@ -20,7 +20,7 @@
                     </div>
                     <NewsList :newsFirstType="newsFirstType" />
                     <div class="news-show">
-                        <a href="#" class="btn btn_big btn_full btn_blue">Показать ещё</a>
+                        <a @click="setLimitType1" class="btn btn_big btn_full btn_blue">Показать ещё</a>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <div class="news-section-body">
                     <NewsList :newsSecondType="newsSecondType" />
                     <div class="news-show">
-                        <a href="#" class="btn btn_big btn_full btn_blue">Показать ещё</a>
+                        <a @click="setLimitType2" class="btn btn_big btn_full btn_blue">Показать ещё</a>
                     </div>
                 </div>
             </div>
@@ -51,12 +51,40 @@ export default {
         }
     },
     components: { TrendsCoins, SubsTopCoinsComponent, NewsList, NewsPartner },
+    data() {
+        return {
+        }
+    },
     computed: {
         newsFirstType() {
             return this.$store.getters['news/NEWS_TYPE_FIRST']
         },
         newsSecondType() {
             return this.$store.getters['news/NEWS_TYPE_SECOND']
+        }
+    },
+    methods: {
+        async setLimitType1() {
+            let increase = 2 + +this.$route.query.limitType1
+            this.$router.push({ path: `/news?limitType1=${increase}&limitType2=${this.$route.query.limitType2}` })
+            await this.$store.dispatch('news/getNewsType1', increase)
+        },
+        async setLimitType2() {
+            let increase = 2 + +this.$route.query.limitType2
+            await this.$store.dispatch('news/getNewsType2', increase)
+            this.$router.push({ path: `/news?limitType1=${this.$route.query.limitType1}&limitType2=${increase}` })
+
+        }
+    },
+    async mounted() {
+        if (this.$route.query.limitType1 && this.$route.query.limitType2) {
+            this.$router.push({ path: `/news?limitType1=${this.$route.query.limitType1}&limitType2=${this.$route.query.limitType2}` })
+            await this.$store.dispatch('news/getNewsType1', this.$route.query.limitType1)
+            await this.$store.dispatch('news/getNewsType2', this.$route.query.limitType2)
+        } else {
+            this.$router.push({ path: `/news?limitType1=${1}&limitType2=${1}` })
+            await this.$store.dispatch('news/getNewsType1', 1)
+            await this.$store.dispatch('news/getNewsType2', 1)
         }
     },
 }

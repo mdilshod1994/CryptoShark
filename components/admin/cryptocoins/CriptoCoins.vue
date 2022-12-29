@@ -122,8 +122,8 @@ export default {
             console.log('coins');
         },
         async deleteCoin(e) {
-            // const deletedNews = await this.$axios.$delete(`cryptoExchanges/${e.id}`)
-            const deletedNews = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `cryptoExchanges/${e.id}`)
+            const deletedNews = await this.$axios.$delete(`cryptoExchanges/${e.id}`)
+            // const deletedNews = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `cryptoExchanges/${e.id}`)
                 .then(res => {
                     return res
                 })

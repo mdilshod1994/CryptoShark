@@ -1,5 +1,3 @@
-const baseUrl = process.env.VUE_APP_API_URL
-
 export const state = () => ({
     newsType1: [],
     newsType2: [],
@@ -45,9 +43,9 @@ export const mutations = {
 }
 
 export const actions = {
-    async getNewsType1(ctx) {
+    async getNewsType1(ctx, params) {
         try {
-            const newsType1 = await this.$axios.$get('front/articles?search[type]=1&limit=-1')
+            const newsType1 = await this.$axios.$get(`front/articles?search[type]=1?page=1&limit=${params}`)
                 .then(res => {
                     return res.data
                 })
@@ -57,9 +55,9 @@ export const actions = {
             console.error(error);
         }
     },
-    async getNewsType2(ctx) {
+    async getNewsType2(ctx, params) {
         try {
-            const newsType2 = await this.$axios.$get('front/articles?search[type]=2&limit=-1')
+            const newsType2 = await this.$axios.$get(`front/articles?search[type]=2?page=1&limit=${params}`)
                 .then(res => {
                     return res.data
                 })
@@ -71,7 +69,7 @@ export const actions = {
     },
     async getNewsType3(ctx) {
         try {
-            const newsType3 = await this.$axios.$get('front/articles?search[type]=3&limit=-1')
+            const newsType3 = await this.$axios.$get('front/articles?search[type]=3&limit=10')
                 .then(res => {
                     return res.data
                 })

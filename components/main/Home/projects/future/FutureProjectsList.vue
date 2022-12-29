@@ -9,16 +9,31 @@
             </nuxt-link>
         </div>
         <EmptyProjects v-else />
+        <loader v-if="loader" />
     </div>
 </template>
 <script>
 import EmptyProjects from '~/components/UI/EmptyProjects.vue';
 import FututeProjectItem from './FututeProjectItem.vue'
+import Loader from '~/components/UI/Loader.vue';
+
 export default {
-    components: { FututeProjectItem, EmptyProjects },
+    components: { FututeProjectItem, EmptyProjects, Loader },
+    data() {
+        return {
+            loader: true
+        }
+    },
     computed: {
         projects() {
             return this.$store.getters['projects/FUTURE_PROJECTS']
+        }
+    },
+    watch: {
+        projects(newValue) {
+            if (newValue) {
+                this.loader = false
+            }
         }
     }
 

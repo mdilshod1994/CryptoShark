@@ -2,8 +2,8 @@
     <div class="container">
         <div class="breadcrumbs">
             <ul class="breadcrumbs-list">
-                <li><a href="#">Главная</a></li>
-                <li><a href="#">Активные проекты</a></li>
+                <li><nuxt-link to="/">Главная</nuxt-link></li>
+                <li><nuxt-link :to="``">Активные проекты</nuxt-link></li>
                 <li>SubQuery Network</li>
             </ul>
         </div>
@@ -30,7 +30,6 @@
                 <PlatformTradeCoins />
             </div>
         </div>
-
         <div class="other-projects">
             <h2 class="other-projects__title">Другие проекты</h2>
             <OtherProjectsSlider />
@@ -58,6 +57,18 @@ export default {
         FundsInvestors,
         Tokenomics,
         ParticipateProject
+    },
+    data() {
+        return {
+            project: {}
+        }
+    },
+    async mounted() {
+        this.project = await this.$axios.$get(`front/projects?search[id]=${+this.$route.params.projects}`)
+            .then(res => {
+                return res
+            })
+        console.log(this.project);
     }
 }
 </script>

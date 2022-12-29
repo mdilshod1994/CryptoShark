@@ -18,8 +18,6 @@ export default {
     },
     async mounted() {
         await this.$store.dispatch('coins/getCoins')
-        await this.$store.dispatch('news/getNewsType1')
-        await this.$store.dispatch('news/getNewsType2')
         await this.$store.dispatch('news/getNewsType3')
     }
 }

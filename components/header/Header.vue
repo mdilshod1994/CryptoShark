@@ -14,16 +14,16 @@
                     </div>
                     <nav class="header-menu">
                         <ul class="header-menu-list">
-                            <li :class="{active : $route.path === '/'}">
+                            <li :class="{ active: $route.path === '/' }">
                                 <nuxt-link to="/">Главная</nuxt-link>
                             </li>
-                            <li :class="{active : $route.path === '/projects'}">
-                                <nuxt-link to="/projects">Проекты</nuxt-link>
+                            <li :class="{ active: $route.path === '/projects' }">
+                                <nuxt-link to="/projects?limit=10&type=future-projects">Проекты</nuxt-link>
                             </li>
-                            <li :class="{active : $route.path === '/news' ||  $route.name === 'news-single'}">
-                                <nuxt-link to="/news">Криптоновости</nuxt-link>
+                            <li :class="{ active: $route.path === '/news' || $route.name === 'news-single' }">
+                                <nuxt-link to="/news?limitType1=2&limitType2=2">Криптоновости</nuxt-link>
                             </li>
-                            <li :class="{active : $route.path === '/knowledge'}">
+                            <li :class="{ active: $route.path === '/knowledge' }">
                                 <nuxt-link to="#">База знаний</nuxt-link>
                             </li>
                         </ul>

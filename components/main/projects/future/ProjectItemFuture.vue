@@ -1,15 +1,17 @@
 <template>
     <div class="projects-item">
         <div class="projects-item-cell projects-item-cell_1">
-            <div class="projects-item-info">
-                <div class="projects-item__logo"><a href="#"><img :src="`${item.icon_server}/${item.icon_path}`"
-                            alt="img"></a></div>
+            <nuxt-link :to="`/projects/${item.id}`" class="projects-item-info">
+                <div class="projects-item__logo">
+                    <div><img :src="`${item.icon_server}/${item.icon_path}`" alt="img"></div>
+                </div>
                 <div class="projects-item-content">
-                    <div class="projects-item__title"><a href="#">{{ item.name }} <span>{{ item.symbol }}</span></a>
+                    <div class="projects-item__title">
+                        <div>{{ item.name }} <span>{{ item.symbol }}</span></div>
                     </div>
                     <div class="projects-item__category">{{ item.projects_categories_name }}</div>
                 </div>
-            </div>
+            </nuxt-link>
         </div>
         <div class="projects-item-cell projects-item-cell_2">
             <div class="projects-item__date">

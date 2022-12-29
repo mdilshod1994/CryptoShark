@@ -50,7 +50,7 @@ export const mutations = {
 export const actions = {
     async getCoins(ctx) {
         try {
-            const coins = await this.$axios.$get('front/crypto_exchanges?limit=6').then(res => {
+            const coins = await this.$axios.$get('front/crypto_exchanges?limit=-1').then(res => {
                 return res.data
             })
             ctx.commit('setCoins', coins)

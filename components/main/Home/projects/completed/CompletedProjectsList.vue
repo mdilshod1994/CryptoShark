@@ -7,20 +7,37 @@
             <a href="#" class="btn btn_big btn_full btn_blue">Все проекты</a>
         </div>
         <EmptyProjects v-else />
+        <loader v-if="loader" />
     </div>
 </template>
 <script>
 import EmptyProjects from '~/components/UI/EmptyProjects.vue';
+import Loader from '~/components/UI/Loader.vue';
 import CompletedProjectItem from './CompletedProjectItem.vue';
 export default {
-    components: { CompletedProjectItem, EmptyProjects },
+    components: { CompletedProjectItem, EmptyProjects, Loader },
+    data() {
+        return {
+            loader: true
+        }
+    },
     computed: {
         projects() {
             return this.$store.getters['projects/COMPLETED_PROJECTS']
         }
+    },
+    watch: {
+        projects(newValue) {
+            if (newValue) {
+                this.loader = false
+            }
+        }
     }
 }
 </script>
-<style lang="">
-    
+<style >
+.mainprojects-block {
+    position: relative;
+    overflow: hidden;
+}
 </style>
