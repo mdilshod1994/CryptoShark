@@ -4,10 +4,14 @@
             <CompletedProjectItem v-for="item in projects" :key="item.id" :item="item" />
         </div>
         <div class="mainprojects-bottom" v-if="projects.length > 0">
-            <a href="#" class="btn btn_big btn_full btn_blue">Все проекты</a>
+            <nuxt-link to="/projects?limit=10&type=completed-projects" class="btn btn_big btn_full btn_blue">
+                Все проекты
+            </nuxt-link>
         </div>
-        <EmptyProjects v-else />
-        <loader v-if="loader" />
+        <EmptyProjects v-else :message="'Завершенных'" />
+        <transition name="loader-fade">
+            <loader v-if="loader" />
+        </transition>
     </div>
 </template>
 <script>

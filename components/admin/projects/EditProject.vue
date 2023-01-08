@@ -282,47 +282,52 @@ export default {
             }
         },
         async fetchProject() {
-            // await this.$axios.$get(`projects/${this.$route.query.id}`)
-            await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projects/${this.$route.query.id}`)
-                .then(res => {
-                    let start = new Date(res.date_start * 1000);
-                    let end = new Date(res.date_end * 1000);
-                    this.newProject = {
-                        name: res.name,
-                        symbol: res.symbol,
-                        description: res.description,
-                        max_interest: res.max_interest,
-                        site: res.site,
-                        area: res.area,
-                        area_link: res.area_link,
-                        price_сurrent: res.price_сurrent,
-                        price_ico: res.price_ico,
-                        price_maximum: res.price_maximum,
-                        roi: res.roi,
-                        max: res.max,
-                        facebook_link: res.facebook_link,
-                        twitter_link: res.twitter_link,
-                        instagram_link: res.instagram_link,
-                        vk_link: res.vk_link,
-                        youtube_link: res.youtube_link,
-                        telegram_link: res.telegram_link,
-                        linkedln_link: res.linkedln_link,
-                        github_link: res.github_link,
-                        discord_link: res.discord_link,
-                        grade_funds: res.grade_funds,
-                        grade_hype: res.grade_hype,
-                        grade_tokenomics: res.grade_tokenomics,
-                        limits: res.limits,
-                        currencies_payment: res.currencies_payment,
-                        icon_id: res.icon_id,
-                        photo_id: res.photo_id,
-                        date_start: start.toLocaleDateString('sv'),
-                        date_end: end.toLocaleDateString("sv"),
-                    }
-                    res.funds_status ? this.selectedStatusFunds = 1 : this.selectedStatusFunds = 0
-                    res.steps_status ? this.selectedStatusSteps = 1 : this.selectedStatusSteps = 0
-                    res.teams_status ? this.selectedStatusTeams = 1 : this.selectedStatusTeams = 0
-                })
+            try {
+                // await this.$axios.$get(`projects/${this.$route.query.id}`)
+                await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projects/${this.$route.query.id}`)
+                    .then(res => {
+                        let start = new Date(res.date_start * 1000);
+                        let end = new Date(res.date_end * 1000);
+                        this.newProject = {
+                            name: res.name,
+                            symbol: res.symbol,
+                            description: res.description,
+                            max_interest: res.max_interest,
+                            site: res.site,
+                            area: res.area,
+                            area_link: res.area_link,
+                            price_сurrent: res.price_сurrent,
+                            price_ico: res.price_ico,
+                            price_maximum: res.price_maximum,
+                            roi: res.roi,
+                            max: res.max,
+                            facebook_link: res.facebook_link,
+                            twitter_link: res.twitter_link,
+                            instagram_link: res.instagram_link,
+                            vk_link: res.vk_link,
+                            youtube_link: res.youtube_link,
+                            telegram_link: res.telegram_link,
+                            linkedln_link: res.linkedln_link,
+                            github_link: res.github_link,
+                            discord_link: res.discord_link,
+                            grade_funds: res.grade_funds,
+                            grade_hype: res.grade_hype,
+                            grade_tokenomics: res.grade_tokenomics,
+                            limits: res.limits,
+                            currencies_payment: res.currencies_payment,
+                            icon_id: res.icon_id,
+                            photo_id: res.photo_id,
+                            date_start: start.toLocaleDateString('sv'),
+                            date_end: end.toLocaleDateString("sv"),
+                        }
+                        res.funds_status ? this.selectedStatusFunds = 1 : this.selectedStatusFunds = 0
+                        res.steps_status ? this.selectedStatusSteps = 1 : this.selectedStatusSteps = 0
+                        res.teams_status ? this.selectedStatusTeams = 1 : this.selectedStatusTeams = 0
+                    })
+            } catch (error) {
+                console.log(error);
+            }
+
         },
         async cancelChanging() {
             await this.fetchProject()

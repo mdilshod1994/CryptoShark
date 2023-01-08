@@ -3,19 +3,19 @@
         <div class="breadcrumbs">
             <ul class="breadcrumbs-list">
                 <li><nuxt-link to="/">Главная</nuxt-link></li>
-                <li><nuxt-link :to="``">Активные проекты</nuxt-link></li>
+                <li><nuxt-link :to="link">Активные проекты</nuxt-link></li>
                 <li>SubQuery Network</li>
             </ul>
         </div>
         <div class="project">
-            <ProjectmainInfo />
+            <ProjectmainInfo :project="project" />
             <div class="project-content">
-                <ProjectContent />
+                <ProjectContent :project="project" />
                 <participate-project v-if="false" />
                 <FundsInvestors />
-                <Tokenomics />
+                <Tokenomics v-if="false" />
                 <ProjectTeamSlider />
-                <ActivityChart />
+                <ActivityChart v-if="false"/>
                 <div class="project-content-section">
                     <h4 class="project-content-section__caption">О проекте SubQuery Network</h4>
                     <div class="project-video">
@@ -60,16 +60,20 @@ export default {
     },
     data() {
         return {
-            project: {}
+            project: {},
+            link: ''
         }
     },
     async mounted() {
-        this.project = await this.$axios.$get(`front/projects?search[id]=${+this.$route.params.projects}`)
-            .then(res => {
-                return res
-            })
-        console.log(this.project);
-    }
+        try {
+            this.project = await this.$axios.$get(`front/projects?search[projects.id]=${+this.$route.params.projects}&limit=-1`)
+                .then(res => {
+                    return res.data[0]
+                })
+        } catch (error) {
+            console.log(error);
+        }
+    },
 }
 </script>
 <style>

@@ -41,7 +41,7 @@
                                         class="rounded-circle" />
                                     <p class=" m-0 ml-2 " style="font-weight: bold">{{ item.name }}</p>
                                     <p class=" m-0 ml-2 mob-ver" style="font-weight: normal; color: gray;">{{
-                                            item.symbol
+                                        item.symbol
                                     }}
                                     </p>
                                 </div>
@@ -54,12 +54,12 @@
                             </td>
                             <td style="width: 20%" class=" align-items-center mob-ver">
                                 <p class=" m-0 ml-2 mr-2 fw-bold"> {{ (item.marketCapUsd).toLocaleString("en-US",
-                                        { style: "currency", currency: "USD" })
+                                    { style: "currency", currency: "USD" })
                                 }}</p>
                             </td>
                             <td style="width: 20%" class=" align-items-center mob-ver">
                                 <p class=" m-0 ml-2 mr-2 fw-bold"> {{ (item.volumeUsd24Hr).toLocaleString("en-US",
-                                        { style: "currency", currency: "USD" })
+                                    { style: "currency", currency: "USD" })
                                 }}</p>
                             </td>
                             <td class="d-flex align-items-center actions">
@@ -122,19 +122,22 @@ export default {
             console.log('coins');
         },
         async deleteCoin(e) {
-            const deletedNews = await this.$axios.$delete(`cryptoExchanges/${e.id}`)
-            // const deletedNews = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `cryptoExchanges/${e.id}`)
-                .then(res => {
-                    return res
-                })
-            if (deletedNews) {
-                this.$store.dispatch('coins/getCoins')
-                this.$toast.success(`${e.name} удален успешно`);
-            } else {
+            try {
+                const deletedNews = await this.$axios.$delete(`cryptoExchanges/${e.id}`)
+                    // const deletedNews = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `cryptoExchanges/${e.id}`)
+                    .then(res => {
+                        return res
+                    })
+                if (deletedNews) {
+                    this.$store.dispatch('coins/getCoins')
+                    this.$toast.success(`${e.name} удален успешно`);
+                }
+                return deletedNews
+            } catch (error) {
                 this.$toast.error(`Что-то пошло не так`);
+                console.log(error);
             }
 
-            return deletedNews
         },
     },
     async mounted() {

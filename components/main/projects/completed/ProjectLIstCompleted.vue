@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="projects-space" v-if="projects.length > 0"></div>
-        <ProjectItemCompleted v-show="projects.length > 0" />
+        <ProjectItemCompleted v-for="item in projects" :key="item.id" :item="item" />
     </div>
 </template>
 <script>

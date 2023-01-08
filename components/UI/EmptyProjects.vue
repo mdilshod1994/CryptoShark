@@ -1,7 +1,7 @@
 <template>
     <div class="mainprojects-empty">
         <div class="mainprojects-empty__image"><img src="@/assets/images/mainprojects-image.png" alt="img"></div>
-        <div class="mainprojects-empty__caption">Активных проектов пока нет</div>
+        <div class="mainprojects-empty__caption">{{ message }} проектов пока нет</div>
         <PrimaryButton class="mainprojects-empty__btn btn btn_big">Перейти в Telegram</PrimaryButton>
     </div>
 </template>
@@ -10,7 +10,8 @@ import PrimaryButton from './PrimaryButton.vue';
 
 export default {
     name: "epmty-projects",
-    components: { PrimaryButton }
+    components: { PrimaryButton },
+    props: ['message']
 }
 </script>
 <style>

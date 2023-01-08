@@ -65,12 +65,12 @@ export default {
     },
     methods: {
         async setLimitType1() {
-            let increase = 2 + +this.$route.query.limitType1
+            let increase = 8 + +this.$route.query.limitType1
             this.$router.push({ path: `/news?limitType1=${increase}&limitType2=${this.$route.query.limitType2}` })
             await this.$store.dispatch('news/getNewsType1', increase)
         },
         async setLimitType2() {
-            let increase = 2 + +this.$route.query.limitType2
+            let increase = 8 + +this.$route.query.limitType2
             await this.$store.dispatch('news/getNewsType2', increase)
             this.$router.push({ path: `/news?limitType1=${this.$route.query.limitType1}&limitType2=${increase}` })
 
@@ -82,9 +82,9 @@ export default {
             await this.$store.dispatch('news/getNewsType1', this.$route.query.limitType1)
             await this.$store.dispatch('news/getNewsType2', this.$route.query.limitType2)
         } else {
-            this.$router.push({ path: `/news?limitType1=${1}&limitType2=${1}` })
-            await this.$store.dispatch('news/getNewsType1', 1)
-            await this.$store.dispatch('news/getNewsType2', 1)
+            this.$router.push({ path: `/news?limitType1=${8}&limitType2=${8}` })
+            await this.$store.dispatch('news/getNewsType1', 8)
+            await this.$store.dispatch('news/getNewsType2', 8)
         }
     },
 }

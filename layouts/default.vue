@@ -1,9 +1,11 @@
 <template>
     <div :class="`wrapper ${$route.path === '/' ? 'homepage' : ''}`">
         <Header />
-        <div class="main">
-            <Nuxt />
-        </div>
+        <transition name="page" mode="out-in">
+            <div class="main">
+                <Nuxt />
+            </div>
+        </transition>
         <Footer />
     </div>
 </template>
@@ -22,3 +24,15 @@ export default {
     }
 }
 </script>
+<style>
+.page-enter-active,
+.page-leave-active {
+    transition: all 0.5s;
+}
+
+.page-enter,
+.page-leave-to {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+</style>

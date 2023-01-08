@@ -92,17 +92,21 @@ export default {
             this.$store.dispatch('forms/openPopup', { tab: 'ProjectCategory', info: e })
         },
         async deleteProject(e) {
-            // const deletedFile = await this.$axios.$delete( `projectsCategories/${e.id}`)
-            const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories/${e.id}`)
-                .then(res => {
-                    return res
-                })
-            if (deletedFile) {
-                this.$store.dispatch('category-projects/fetchCategories')
-                this.$toast.success(`Категория удален успешно`);
-            } else {
+            try {
+                // const deletedFile = await this.$axios.$delete( `projectsCategories/${e.id}`)
+                const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsCategories/${e.id}`)
+                    .then(res => {
+                        return res
+                    })
+                if (deletedFile) {
+                    this.$store.dispatch('category-projects/fetchCategories')
+                    this.$toast.success(`Категория удален успешно`);
+                }
+            } catch (error) {
                 this.$toast.error(`Что-то пошло не так`);
+                console.log(error);
             }
+
         }
     },
     async mounted() {

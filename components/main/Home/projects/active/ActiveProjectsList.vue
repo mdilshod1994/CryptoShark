@@ -8,8 +8,10 @@
                 Все проекты
             </nuxt-link>
         </div>
-        <EmptyProjects v-else />
-        <loader v-if="loader" />
+        <EmptyProjects v-else :message="'Активных'" />
+        <transition name="loader-fade">
+            <loader v-if="loader" />
+        </transition>
     </div>
 </template>
 <script>

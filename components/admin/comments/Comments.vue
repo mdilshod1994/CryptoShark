@@ -134,17 +134,21 @@ export default {
             this.currIndex = e.index
         },
         async deleteComment(e) {
-            // const deletedFile = await this.$axios.$delete( `articlesComments/${e.id}`)
-            const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `articlesComments/${e.id}`)
-                .then(res => {
-                    return res
-                })
-            if (deletedFile) {
-                this.$store.dispatch('comments/fetchComments')
-                this.$toast.success(`Комментарий удален успешно`);
-            } else {
+            try {
+                // const deletedFile = await this.$axios.$delete( `articlesComments/${e.id}`)
+                const deletedFile = await this.$axios.$delete('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `articlesComments/${e.id}`)
+                    .then(res => {
+                        return res
+                    })
+                if (deletedFile) {
+                    this.$store.dispatch('comments/fetchComments')
+                    this.$toast.success(`Комментарий удален успешно`);
+                }
+            } catch (error) {
                 this.$toast.error(`Что-то пошло не так`);
+                console.log(error);
             }
+
         }
     },
     async mounted() {

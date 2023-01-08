@@ -1,39 +1,17 @@
 <template>
     <div class="intro">
-        <div v-for="(item, index) in coins" :key="index" :class="`intro__paralax-${index + 1}`">
-            <div class="intro__paralax-inner">
-                <img :src="item.logo_url" alt="" :class="fade ? 'show' : ''">
+        <transition-group name="fade" tag="div" mode="out-in">
+            <div v-for="(item, index) in coins" :key="item.id" :class="`intro__paralax-${index + 1}`">
+                <div class="intro__paralax-inner">
+                    <img :src="item.logo_url" alt="" :class="fade ? 'show' : ''">
+                </div>
             </div>
-        </div>
-        <!-- <div class="intro__paralax-2">
-            <div class="intro__paralax-inner">
-                <img src="../../../assets/img/banner/2.svg" alt="">
-            </div>
-        </div>
-        <div class="intro__paralax-3">
-            <div class="intro__paralax-inner">
-                <img src="../../../assets/img/banner/3.svg" alt="">
-            </div>
-        </div>
-        <div class="intro__paralax-4">
-            <div class="intro__paralax-inner">
-                <img src="../../../assets/img/banner/4.svg" alt="">
-            </div>
-        </div>
-        <div class="intro__paralax-5">
-            <div class="intro__paralax-inner">
-                <img src="../../../assets/img/banner/5.svg" alt="">
-            </div>
-        </div>
-        <div class="intro__paralax-6">
-            <div class="intro__paralax-inner">
-                <img src="../../../assets/img/banner/6.svg" alt="">
-            </div>
-        </div> -->
+        </transition-group>
         <h1 class="intro__title">Новые <img src="@/assets/images/icon-intro-title.svg" alt="img"> проекты<br> и
             стартапы
             каждый день</h1>
-        <PrimaryButton to="" class="intro__btn">Перейти к проектам</PrimaryButton>
+        <nuxt-link to="/projects?limit=10&type=active-projects" class="btn btn_big intro__btn">Перейти к проектам
+        </nuxt-link>
         <div class="intro__down"><img src="@/assets/images/icon-intro-scroll.svg" alt="img"></div>
     </div>
 </template>
@@ -58,16 +36,20 @@ export default {
         }
     },
     async mounted() {
-        this.allCoins = await this.$axios.$get('front/crypto_exchanges?limit=6').then(res => {
-            return res.data
-        })
-        if (this.allCoins) {
-            this.shuffledCoins()
+        try {
+            this.allCoins = await this.$axios.$get('front/crypto_exchanges?limit=6').then(res => {
+                return res.data
+            })
+            if (this.allCoins) {
+                this.shuffledCoins()
+            }
+            setInterval(() => {
+                this.fade = false
+                this.shuffledCoins()
+            }, 4000)
+        } catch (error) {
+            console.log(error);
         }
-        setInterval(() => {
-            this.fade = false
-            this.shuffledCoins()
-        }, 10000)
     },
     watch: {
         coins(newV) {
@@ -82,16 +64,6 @@ export default {
 </script>
 
 <style>
-.fade-image-enter-active,
-.fade-image-leave-active {
-    transition: opacity 3s ease;
-}
-
-.fade-image-enter-from,
-.fade-image-leave-to {
-    opacity: 0;
-}
-
 .intro {
     position: relative;
     text-align: center;

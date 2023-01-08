@@ -1,17 +1,26 @@
 <template>
-    <div class="container">
-        <div class="projects" v-if="projects">
-            <ProjectTabs />
-            <ProjectLIstActive v-if="$route.fullPath.includes('active-projects')" :projects="projects" />
-            <ProjectLIstCompleted v-if="$route.fullPath.includes('completed-projects')" :projects="projects" />
-            <ProjectLIstFuture v-if="$route.fullPath.includes('future-projects')" :projects="projects" />
-            <div class="projects-show" v-if="projects.length > 0">
-                <a @click="toIncreaseLimit" class="projects-show__btn btn btn_big btn_full btn_blue">Показать ещё</a>
+    <transition name="fade-block">
+        <div class="container">
+            <div class="projects" v-if="projects">
+                <ProjectTabs />
+                <transition-group tag="div" class="projects-transition-wrap" name="slide-left" mode="in-out">
+                    <ProjectLIstActive v-if="$route.fullPath.includes('active-projects')" key="active-projects"
+                        :projects="projects" />
+                    <ProjectLIstCompleted v-if="$route.fullPath.includes('completed-projects')" key="completed-projects"
+                        :projects="projects" />
+                    <ProjectLIstFuture v-if="$route.fullPath.includes('future-projects')" key="future-projects"
+                        :projects="projects" />
+                </transition-group>
+                <div class="projects-show" v-if="projects.length > 0">
+                    <a @click="toIncreaseLimit" class="projects-show__btn btn btn_big btn_full btn_blue">
+                        Показать ещё
+                    </a>
+                </div>
             </div>
+            <SubsTopCoinsComponent class="projects-mainnews" />
+            <TrendsCoins />
         </div>
-        <SubsTopCoinsComponent class="projects-mainnews" />
-        <TrendsCoins />
-    </div>
+    </transition>
 </template>
 <script>
 import ProjectTabs from '@/components/main/projects/ProjectTabs.vue';
@@ -112,6 +121,13 @@ export default {
 .projects-filters__btn.active {
     background: #6170EF !important;
     color: #fff !important;
+}
+
+.projects-transition-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 .projects-list {

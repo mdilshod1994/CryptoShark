@@ -155,11 +155,16 @@ export default {
             this.stepMessage = ''
         },
         async fetchStep() {
-            // await this.$axios.$get(`projectsSteps?search[projects_id]=${this.$route.query.id}`)
-            await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsSteps?search[projects_id]=${this.$route.query.id}`)
-                .then(res => {
-                    this.steps = res.data
-                })
+            try {
+                // await this.$axios.$get(`projectsSteps?search[projects_id]=${this.$route.query.id}`)
+                await this.$axios.$get('https://cors-anywhere.herokuapp.com/' + process.env.API_URL + `projectsSteps?search[projects_id]=${this.$route.query.id}`)
+                    .then(res => {
+                        this.steps = res.data
+                    })
+            } catch (error) {
+                console.log(error);
+            }
+
         }
     },
     async mounted() {

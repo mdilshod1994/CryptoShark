@@ -71,18 +71,23 @@ export const actions = {
     },
     async fetchByType(ctx) {
         let types = [1, 2, 3]
-        for (let index = 0; index < types.length; index++) {
-            const type = types[index];
-            await this.$axios.$get(`front/projects?limit=4&type=${type}`)
-                .then(res => {
-                    if (type === 1) {
-                        ctx.commit('setFutureType', res.data)
-                    } else if (type === 2) {
-                        ctx.commit('setCompletedType', res.data)
-                    } else {
-                        ctx.commit('setActiveType', res.data)
-                    }
-                })
+        try {
+            for (let index = 0; index < types.length; index++) {
+                const type = types[index];
+                await this.$axios.$get(`front/projects?limit=4&type=${type}`)
+                    .then(res => {
+                        if (type === 1) {
+                            ctx.commit('setFutureType', res.data)
+                        } else if (type === 2) {
+                            ctx.commit('setCompletedType', res.data)
+                        } else {
+                            ctx.commit('setActiveType', res.data)
+                        }
+                    })
+            }
+        } catch (error) {
+            console.log(error);
         }
+
     }
 }

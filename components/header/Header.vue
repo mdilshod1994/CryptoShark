@@ -21,7 +21,7 @@
                                 <nuxt-link to="/projects?limit=10&type=future-projects">Проекты</nuxt-link>
                             </li>
                             <li :class="{ active: $route.path === '/news' || $route.name === 'news-single' }">
-                                <nuxt-link to="/news?limitType1=2&limitType2=2">Криптоновости</nuxt-link>
+                                <nuxt-link to="/news?limitType1=8&limitType2=8">Криптоновости</nuxt-link>
                             </li>
                             <li :class="{ active: $route.path === '/knowledge' }">
                                 <nuxt-link to="#">База знаний</nuxt-link>

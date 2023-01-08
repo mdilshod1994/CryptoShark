@@ -3,9 +3,9 @@
         <h4 class="project-content-section__caption">Фонды и инвесторы</h4>
         <div class="project-investors-carousel swiper">
             <div class="swiper-wrapper">
-                <div v-for="item in 20" :key="item.id" class="swiper-slide">
+                <div v-for="item in logos" :key="item.id" class="swiper-slide">
                     <div class="project-investors__item">
-                        <img src="@/assets/images/content/partners/investors-logo1.svg" alt="img">
+                        <img :src="`${item.server}/${item.path}`" alt="img">
                     </div>
                 </div>
             </div>
@@ -19,7 +19,23 @@ import 'swiper/swiper-bundle.min.css'
 
 
 export default {
-    mounted() {
+    props: ['project'],
+    data() {
+        return {
+            logos: []
+        }
+    },
+    async mounted() {
+        try {
+            await this.$axios.$get(`files?search[post_type]=project&post_id=${this.$route.params.projects}`)
+                .then(res => {
+                    this.logos = res.data
+                })
+
+        } catch (error) {
+            console.log(error);
+        }
+
         const investors_slider = new Swiper('.project-investors-carousel', {
             slidesPerView: 1,
             spaceBetween: 30,
@@ -38,11 +54,16 @@ export default {
                 }
             }
         });
+
     }
 }
 </script>
 <style>
 .project-investors-carousel .swiper-slide {
     width: auto !important;
+}
+
+.project-investors-carousel .swiper-slide img {
+    height: 50px;
 }
 </style>

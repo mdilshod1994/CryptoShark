@@ -29,11 +29,12 @@ export default {
     MainNews,
     TrendsCoins
   },
-  mounted() {
+  async mounted() {
     const accessData = this.$cookies.get('user')
     if (accessData) {
       this.$store.commit('user/setData')
     }
+    await this.$store.dispatch('news/getNewsType1', 8)
   }
 };
 </script>

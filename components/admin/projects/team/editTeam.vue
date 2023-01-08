@@ -378,10 +378,15 @@ export default {
             this.$refs.imageRefPhotoTeam.value = null;
         },
         async fetchTeams() {
-            await this.$axios.$get(`/projectsTeams?search[projects_id]=${this.$route.query.id}`)
-                .then(res => {
-                    this.teamFromServer = res.data
-                })
+            try {
+                await this.$axios.$get(`/projectsTeams?search[projects_id]=${this.$route.query.id}`)
+                    .then(res => {
+                        this.teamFromServer = res.data
+                    })
+            } catch (error) {
+                console.log(error);
+            }
+
         }
     },
     async mounted() {

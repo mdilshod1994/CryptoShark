@@ -1,7 +1,7 @@
 <template>
     <div class="projects-item" v-if="item">
         <div class="projects-item-cell projects-item-cell_1">
-            <nuxt-link :to="`/projects/${item.id}`" class="projects-item-info">
+            <router-link :to="`/projects/${item.id}`" class="projects-item-info">
                 <div class="projects-item__logo">
                     <div><img :src="`${item.icon_server}/${item.icon_path}`" alt="img"></div>
                 </div>
@@ -16,7 +16,7 @@
                     </div>
                     <div class="projects-item__category">{{ item.projects_categories_name }}</div>
                 </div>
-            </nuxt-link>
+            </router-link>
         </div>
         <div class="projects-item-cell projects-item-cell_3">
             <div class="projects-item__date">{{ toDate(item.date_start) }}</div>

@@ -11,6 +11,7 @@
 </template>
 <script>
 export default {
+    props: ['condition'],
     transition: {
         name: "slide-up",
         mode: 'out-in'
@@ -70,26 +71,6 @@ export default {
 }
 </script>
 <style >
-.slide-up-leave-active {
-    position: absolute;
-    transition: all 0.4s ease-out;
-}
-
-.slide-up-enter-active {
-    transition: all 0.4s ease-out !important;
-    transition-delay: 0.3s !important;
-}
-
-.slide-up-enter {
-    opacity: 0 !important;
-    transform: translateY(30px) !important;
-}
-
-.slide-up-leave-to {
-    opacity: 0;
-    transform: translateY(-30px);
-}
-
 .loader {
     position: absolute;
     top: 0;

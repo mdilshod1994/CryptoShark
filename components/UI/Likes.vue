@@ -24,17 +24,21 @@ export default {
             let body = {
                 articles_id: item.id
             }
-            const liked = await this.$axios.$post('https://crypto-shark-dev.ru/articlesLikes', body)
-                .then(res => {
-                    return res
-                })
+            try {
+                const liked = await this.$axios.$post('https://crypto-shark-dev.ru/articlesLikes', body)
+                    .then(res => {
+                        return res
+                    })
 
-            if (liked) {
-                this.articleId = liked.articles_id
-                liked.type === "add_like" ? this.liked = true : this.liked = false
-                await this.$store.dispatch('news/getNewsType1')
-                await this.$store.dispatch('news/getNewsType2')
-                await this.$store.dispatch('news/getNewsType3')
+                if (liked) {
+                    this.articleId = liked.articles_id
+                    liked.type === "add_like" ? this.liked = true : this.liked = false
+                    await this.$store.dispatch('news/getNewsType1')
+                    await this.$store.dispatch('news/getNewsType2')
+                    await this.$store.dispatch('news/getNewsType3')
+                }
+            } catch (error) {
+                console.log(error);
             }
         }
     }

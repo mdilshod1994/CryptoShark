@@ -53,11 +53,10 @@ export default {
                 if (login) {
                     this.$router.push('/admin')
                     this.$toast.success(`Добро пожаловать ${login.user.user_roles_title}`);
-                } else {
-                    this.$toast.error(`Произшла ошибка, повторите еще`);
                 }
             } catch (error) {
                 console.error(error);
+                this.$toast.error(`Произшла ошибка, повторите еще`);
             }
         }
     },
